@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="4dp"
+    android:layout_marginTop="4dp">
+
+    <TextView
+        android:id="@+id/ledger_item_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/ledger_item_debit"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:text="Cleaned Room" />
+
+    <TextView
+        android:id="@+id/ledger_item_debit"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="monospace"
+        android:textAlignment="viewEnd"
+        android:textColor="@color/colorDebit"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toStartOf="@id/ledger_item_credit"
+        app:layout_constraintStart_toEndOf="@+id/ledger_item_description"
+        tools:text="-0.25" />
+
+    <TextView
+        android:id="@+id/ledger_item_credit"
+        android:layout_width="84dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:fontFamily="monospace"
+        android:textAlignment="viewEnd"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/ledger_item_debit"
+        tools:text="2.00" />
+</android.support.constraint.ConstraintLayout>

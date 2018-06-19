@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "831293013574",
+    "firebase_url": "https://net-bradball-allowance.firebaseio.com",
+    "project_id": "net-bradball-allowance",
+    "storage_bucket": "net-bradball-allowance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:831293013574:android:97a467e4d1805d26",
+        "android_client_info": {
+          "package_name": "net.bradball.allowance"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "831293013574-hlitfq66q3qhidtmt65i1hcsfp1vucsn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "net.bradball.allowance",
+            "certificate_hash": "7ff1ac5f049a13b0e532cf6bf2b4b8573598c702"
+          }
+        },
+        {
+          "client_id": "831293013574-u4k3cjmessk79dkchtf4u82us6f7cgiv.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "831293013574-u4k3cjmessk79dkchtf4u82us6f7cgiv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAD1Vn4u3jJDr1JDfAR-tkmh9J72W91EqM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "831293013574-u4k3cjmessk79dkchtf4u82us6f7cgiv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

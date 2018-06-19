@@ -1,10 +1,8 @@
 apply plugin: 'com.android.application'
-
 apply plugin: 'kotlin-android'
-
 apply plugin: 'kotlin-android-extensions'
-
 apply plugin: 'kotlin-kapt'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     compileSdkVersion 27
@@ -20,6 +18,11 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file("ext/debug.keystore")
         }
     }
 }
@@ -49,6 +52,8 @@ dependencies {
     // JetPack
     implementation "android.arch.lifecycle:extensions:$jetpackVersion"
     implementation "android.arch.lifecycle:viewmodel:$jetpackVersion"
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha02'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha02'
     testImplementation("android.arch.core:core-testing:$jetpackVersion", {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -60,5 +65,9 @@ dependencies {
 
     // VOLLEY
     implementation "com.android.volley:volley:$volleyVersion"
+
+    // FIREBASE
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-firestore:17.0.1'
 
 }

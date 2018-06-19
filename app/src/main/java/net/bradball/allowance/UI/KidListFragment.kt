@@ -12,6 +12,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.navigation.NavOptions
+import androidx.navigation.NavOptionsBuilder
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 
@@ -108,11 +111,21 @@ class KidListFragment : Fragment() {
     private inner class KidListAdapter internal constructor(private val kidList: ArrayList<Kid>): RecyclerView.Adapter<KidListAdapter.ViewHolder>() {
 
         internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            var nameLabel: TextView = itemView.kid_name
-            var balanceLabel: TextView = itemView.kid_balance
+            private val nameLabel: TextView = itemView.kid_name
+            private val balanceLabel: TextView = itemView.kid_balance
 
-            init {
-                itemView.setOnClickListener { /* showAddContactDialog(adapterPosition) */ }
+            fun bindKid(kid: Kid) {
+
+                val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance();
+
+                nameLabel.text = kid.firstName
+                balanceLabel.text = currencyFormatter.format(kid.currentBalance())
+
+                itemView.setOnClickListener {
+                    Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.id))
+                    // Navigation.createNavigateOnClickListener(R.id.ledgerFragment, LedgerFragment.getArgsBundle(kid.id))
+                }
+
             }
         }
 
@@ -122,11 +135,9 @@ class KidListFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance();
-            val (id, firstName, lastName) = kidList[position]
-            holder.nameLabel.text = firstName
-            holder.balanceLabel.text = currencyFormatter.format(kidList[position].currentBalance())
+            holder.bindKid(kidList[position])
         }
+
 
         override fun getItemCount(): Int {
             return kidList.size
