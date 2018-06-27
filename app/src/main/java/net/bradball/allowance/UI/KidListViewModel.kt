@@ -10,6 +10,8 @@ class KidListViewModel: ViewModel() {
     fun getKidList(): LiveData<List<Kid>> {
         val data: MutableLiveData<List<Kid>> = MutableLiveData()
         data.postValue(listOf(Kid(1, "Braden", "Ball"), Kid(2, "Charlie", "Ball")))
+
+
         return data
     }
 }

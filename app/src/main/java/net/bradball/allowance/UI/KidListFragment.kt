@@ -12,8 +12,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.NavOptions
-import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
@@ -118,7 +116,7 @@ class KidListFragment : Fragment() {
 
                 val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance();
 
-                nameLabel.text = kid.firstName
+                nameLabel.text = kid.firstname
                 balanceLabel.text = currencyFormatter.format(kid.currentBalance())
 
                 itemView.setOnClickListener {
