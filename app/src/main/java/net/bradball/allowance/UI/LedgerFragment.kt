@@ -34,7 +34,7 @@ private const val ARG_KID_ID = "kidId"
  *
  */
 class LedgerFragment : Fragment() {
-    private var kidId: Int = 0
+    private var kidId: String = ""
     private var listener: onLedgerInteraction? = null
 
     private lateinit var viewModel: LedgerViewModel
@@ -51,8 +51,8 @@ class LedgerFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun getArgsBundle(kidId: Int) = Bundle().apply {
-            putInt(ARG_KID_ID, kidId)
+        fun getArgsBundle(kidId: String) = Bundle().apply {
+            putString(ARG_KID_ID, kidId)
         }
 
     }
@@ -62,7 +62,7 @@ class LedgerFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            kidId = it.getInt(ARG_KID_ID, 0)
+            kidId = it.getString(ARG_KID_ID, "")
         }
 
         viewModel = ViewModelProviders.of(this).get(LedgerViewModel::class.java)

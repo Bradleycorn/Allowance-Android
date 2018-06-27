@@ -117,10 +117,10 @@ class KidListFragment : Fragment() {
                 val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance();
 
                 nameLabel.text = kid.firstname
-                balanceLabel.text = currencyFormatter.format(kid.currentBalance())
+                balanceLabel.text = currencyFormatter.format(kid.balance)
 
                 itemView.setOnClickListener {
-                    Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.id))
+                    Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.docId))
                     // Navigation.createNavigateOnClickListener(R.id.ledgerFragment, LedgerFragment.getArgsBundle(kid.id))
                 }
 

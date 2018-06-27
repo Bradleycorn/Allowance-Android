@@ -5,6 +5,7 @@ import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import net.bradball.allowance.data.FirestoreLiveData
 import net.bradball.allowance.models.Kid
@@ -21,6 +22,7 @@ object KidsRepo {
         val data = FirestoreLiveData(firestore.collection(KIDS_COLLECTION).orderBy(KIDS_FIELD_FIRSTNAME))
 
         return Transformations.switchMap(data) {
+            val temp = it.toObjects(Kid::class.java)
             kidsList.value = it.toObjects(Kid::class.java)
             return@switchMap kidsList
         }
