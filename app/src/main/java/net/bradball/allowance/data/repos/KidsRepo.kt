@@ -10,8 +10,8 @@ import net.bradball.allowance.data.FirestoreLiveData
 import net.bradball.allowance.models.Kid
 
 object KidsRepo {
-    const val KIDS_COLLECTION = "kids"
-    const val KIDS_FIELD_FIRSTNAME = "firstname"
+    private const val KIDS_COLLECTION = "kids"
+    private const val KIDS_FIELD_FIRSTNAME = "firstname"
 
     private val kidsList = MutableLiveData<List<Kid>>()
 
