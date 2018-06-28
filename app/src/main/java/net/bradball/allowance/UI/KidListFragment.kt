@@ -6,6 +6,8 @@ import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -45,23 +47,9 @@ class KidListFragment : Fragment() {
     }
 
     private var listener: OnFragmentInteractionListener? = null
-    private val kidList: ArrayList<Kid> = ArrayList()
-    private val listAdapter  = KidListAdapter(kidList)
+    private val listAdapter  = KidListAdapter()
 
     private lateinit var viewModel: KidListViewModel
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        viewModel = ViewModelProviders.of(this).get(KidListViewModel::class.java)
-        viewModel.getKidList().observe(this, Observer {
-            kidList.clear()
-            if (it != null) {
-                kidList.addAll(it)
-            }
-            listAdapter.notifyDataSetChanged()
-        })
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -69,6 +57,11 @@ class KidListFragment : Fragment() {
 
         view.kid_list.layoutManager = LinearLayoutManager(activity)
         view.kid_list.adapter = listAdapter
+
+        viewModel = ViewModelProviders.of(this).get(KidListViewModel::class.java)
+        viewModel.getKidList().observe(this, Observer<List<Kid>> { list -> listAdapter.submitList(list) })
+
+
 
         return view
     }
@@ -105,8 +98,20 @@ class KidListFragment : Fragment() {
         fun onFragmentInteraction(uri: Uri)
     }
 
+    private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Kid>() {
+        override fun areItemsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
+            return oldItem?.docId == newItem?.docId ?: false
+        }
 
-    private inner class KidListAdapter internal constructor(private val kidList: ArrayList<Kid>): RecyclerView.Adapter<KidListAdapter.ViewHolder>() {
+        override fun areContentsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
+            return oldItem?.equals(newItem) ?: false
+        }
+    }
+
+
+    private inner class KidListAdapter internal constructor(): ListAdapter<Kid, KidListAdapter.ViewHolder>(DIFF_CALLBACK) {
+
+
 
         internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val nameLabel: TextView = itemView.kid_name
@@ -133,13 +138,9 @@ class KidListFragment : Fragment() {
         }
 
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            holder.bindKid(kidList[position])
+            holder.bindKid(getItem(position))
         }
 
-
-        override fun getItemCount(): Int {
-            return kidList.size
-        }
     }
 
 }
