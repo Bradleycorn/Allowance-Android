@@ -3,6 +3,8 @@ package net.bradball.allowance.UI
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import net.bradball.allowance.data.repos.KidsRepo
+import net.bradball.allowance.models.Kid
 import net.bradball.allowance.models.LedgerEntry
 import java.util.*
 
@@ -27,5 +29,10 @@ class LedgerViewModel: ViewModel() {
         val data: MutableLiveData<List<LedgerEntry>> = MutableLiveData()
         data.postValue(ledgerData.filter { it.kidId == kidId })
         return data
+    }
+
+
+    fun getKid(kidId: String): LiveData<Kid> {
+      return KidsRepo.getKid(kidId)
     }
 }

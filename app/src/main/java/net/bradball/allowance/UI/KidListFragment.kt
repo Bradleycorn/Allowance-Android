@@ -44,10 +44,20 @@ class KidListFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() = KidListFragment()
+
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Kid>() {
+            override fun areItemsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
+                return oldItem?.docId == newItem?.docId ?: false
+            }
+
+            override fun areContentsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
+                return oldItem?.equals(newItem) ?: false
+            }
+        }
     }
 
     private var listener: OnFragmentInteractionListener? = null
-    private val listAdapter  = KidListAdapter()
+    private val listAdapter = KidListAdapter()
 
     private lateinit var viewModel: KidListViewModel
 
@@ -95,24 +105,11 @@ class KidListFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
-
-    private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Kid>() {
-        override fun areItemsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
-            return oldItem?.docId == newItem?.docId ?: false
-        }
-
-        override fun areContentsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
-            return oldItem?.equals(newItem) ?: false
-        }
+        fun onFragmentInteraction()
     }
 
 
     private inner class KidListAdapter internal constructor(): ListAdapter<Kid, KidListAdapter.ViewHolder>(DIFF_CALLBACK) {
-
-
-
         internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             private val nameLabel: TextView = itemView.kid_name
             private val balanceLabel: TextView = itemView.kid_balance
@@ -125,7 +122,7 @@ class KidListFragment : Fragment() {
                 balanceLabel.text = currencyFormatter.format(kid.balance)
 
                 itemView.setOnClickListener {
-                    Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.docId))
+                    Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.docId, kid.firstname))
                     // Navigation.createNavigateOnClickListener(R.id.ledgerFragment, LedgerFragment.getArgsBundle(kid.id))
                 }
 

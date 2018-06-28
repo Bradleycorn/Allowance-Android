@@ -5,7 +5,7 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 
-class FirestoreLiveData(private val query: Query) : LiveData<QuerySnapshot>() {
+class FirestoreQueryLiveData(private val query: Query) : LiveData<QuerySnapshot>() {
 
     private var queryListener: ListenerRegistration? = null
 
@@ -16,7 +16,6 @@ class FirestoreLiveData(private val query: Query) : LiveData<QuerySnapshot>() {
         }
 
     }
-
 
     override fun onInactive() {
         super.onInactive()

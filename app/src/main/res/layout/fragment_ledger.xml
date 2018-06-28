@@ -8,6 +8,17 @@
     tools:context=".UI.LedgerFragment">
 
 
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/button_add_ledger_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_add_white_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/ledger_list"
         android:layout_width="0dp"
