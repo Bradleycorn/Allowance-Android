@@ -1,4 +1,4 @@
-package net.bradball.allowance.UI
+package net.bradball.allowance.UI.Ledger
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
@@ -12,14 +12,17 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_ledger.view.*
 import kotlinx.android.synthetic.main.fragment_ledger_list_item.view.*
 
 import net.bradball.allowance.R
+import net.bradball.allowance.UI.AllowanceFragment
+import net.bradball.allowance.UI.LedgerItem.LedgerItemFragment
 import net.bradball.allowance.models.LedgerEntry
+import net.bradball.allowance.util.empty
 import java.text.NumberFormat
 import java.util.ArrayList
 
@@ -36,7 +39,7 @@ private const val ARG_KID_NAME = "kidName"
  * create an instance of this fragment.
  *
  */
-class LedgerFragment : Fragment() {
+class LedgerFragment : AllowanceFragment() {
     private var kidId: String = ""
     private var listener: onLedgerInteraction? = null
 
@@ -67,8 +70,8 @@ class LedgerFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            kidId = it.getString(ARG_KID_ID, "")
-            (activity as AppCompatActivity).supportActionBar?.title = it.getString(ARG_KID_NAME)
+            kidId = it.getString(ARG_KID_ID, String.empty)
+            setToolbarTitle(it.getString(ARG_KID_NAME))
         }
 
         viewModel = ViewModelProviders.of(this).get(LedgerViewModel::class.java)
@@ -94,6 +97,7 @@ class LedgerFragment : Fragment() {
         view.ledger_list.adapter = listAdapter
 
         view.button_add_ledger_item?.setOnClickListener {
+            Navigation.findNavController(view).navigate(R.id.action_addLedgerItem, LedgerItemFragment.getArgsBundle(kidId))
             Toast.makeText(activity, "FAB Clicked", Toast.LENGTH_LONG).show()
         }
         return view

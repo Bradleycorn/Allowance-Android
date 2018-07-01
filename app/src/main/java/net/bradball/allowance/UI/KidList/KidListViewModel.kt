@@ -1,4 +1,4 @@
-package net.bradball.allowance.UI
+package net.bradball.allowance.UI.KidList
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MutableLiveData
