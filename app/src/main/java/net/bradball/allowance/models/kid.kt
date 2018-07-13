@@ -7,7 +7,7 @@ data class Kid(var firstname: String = "", var lastname: String = "", var balanc
 
     override
     val docId: String
-        get() = (firstname + "-" + lastname).toLowerCase()
+        get() = ("$firstname-$lastname").toLowerCase()
 
     fun credit(amount: Double) {
         balance += amount
