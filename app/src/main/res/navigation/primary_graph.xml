@@ -23,11 +23,9 @@
             android:id="@+id/action_addLedgerItem"
             app:destination="@id/addLedgerItemFragment" />
         <argument
-            android:name="kidId"
-            app:type="integer" />
+            android:name="kidId" />
         <argument
-            android:name="kidName"
-            app:type="string" />
+            android:name="kidName" />
     </fragment>
     <fragment
         android:id="@+id/addLedgerItemFragment"
@@ -35,7 +33,6 @@
         android:label="Add Entry"
         tools:layout="@layout/fragment_ledger_item">
         <argument
-            android:name="kidId"
-            app:type="string" />
+            android:name="kidId"/>
     </fragment>
 </navigation>
