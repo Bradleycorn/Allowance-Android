@@ -1,14 +1,15 @@
-package net.bradball.allowance.UI.Ledger
+package net.bradball.allowance.ui.Ledger
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import net.bradball.allowance.data.repos.KidsRepo
 import net.bradball.allowance.models.Kid
 import net.bradball.allowance.models.LedgerEntry
 import java.util.*
+import javax.inject.Inject
 
-class LedgerViewModel: ViewModel() {
+class LedgerViewModel @Inject constructor(private val kidsRepo: KidsRepo): ViewModel() {
 
     fun getLedger(kidId: String): LiveData<List<LedgerEntry>> {
 
@@ -33,6 +34,6 @@ class LedgerViewModel: ViewModel() {
 
 
     fun getKid(kidId: String): LiveData<Kid> {
-      return KidsRepo.getKid(kidId)
+      return kidsRepo.getKid(kidId)
     }
 }

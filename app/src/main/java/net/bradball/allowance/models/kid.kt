@@ -1,12 +1,12 @@
 package net.bradball.allowance.models
 
-import net.bradball.allowance.data.FirestoreDocument
+import net.bradball.allowance.data.DataStoreRecord
 import java.util.*
 
-data class Kid(var firstname: String = "", var lastname: String = "", var balance: Double = 0.0, val birthdate: Date = Date()) : FirestoreDocument {
+data class Kid( var firstname: String = "", var lastname: String = "", var balance: Double = 0.0, val birthdate: Date = Date()) : DataStoreRecord {
 
     override
-    val docId: String
+    val recordId: String
         get() = ("$firstname-$lastname").toLowerCase()
 
     fun credit(amount: Double) {

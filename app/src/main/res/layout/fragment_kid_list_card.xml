@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/kid_card"
@@ -9,35 +10,83 @@
     android:layout_marginRight="8dp"
     android:layout_marginTop="8dp">
 
-    <android.support.constraint.ConstraintLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="128dp">
+
+        <ImageView
+            android:id="@+id/kid_card_image"
+            android:layout_width="128dp"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/kid_card_image_description"
+            android:scaleType="fitCenter"
+            android:src="@drawable/kid_placeholder"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars[2]" />
 
         <TextView
-            android:id="@+id/kid_name"
+            android:id="@+id/kid_card_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-            android:textSize="36sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/kid_balance"
-            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginEnd="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/kid_card_image"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Braden" />
 
         <TextView
-            android:id="@+id/kid_balance"
+            android:id="@+id/kid_card_spend_money_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:textSize="28sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/kid_name"
-            app:layout_constraintEnd_toEndOf="parent"
-            tools:text="$32.25" />
-    </android.support.constraint.ConstraintLayout>
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="Spend Money"
+            app:layout_constraintEnd_toStartOf="@+id/kid_card_total_label"
+            app:layout_constraintStart_toEndOf="@+id/kid_card_image"
+            app:layout_constraintTop_toBottomOf="@+id/kid_card_name"
+            tools:text="Spend Money" />
 
-</android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/kid_card_spend_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintEnd_toEndOf="@+id/kid_card_spend_money_label"
+            app:layout_constraintStart_toStartOf="@+id/kid_card_spend_money_label"
+            app:layout_constraintTop_toBottomOf="@+id/kid_card_spend_money_label"
+            tools:text="$32.25" />
+
+        <TextView
+            android:id="@+id/kid_card_total_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:textAlignment="center"
+            android:text="Total"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/kid_card_spend_money_label"
+            app:layout_constraintTop_toBottomOf="@+id/kid_card_name"
+            tools:text="Total" />
+
+        <TextView
+            android:id="@+id/kid_card_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
+            app:layout_constraintEnd_toEndOf="@+id/kid_card_total_label"
+            app:layout_constraintStart_toStartOf="@+id/kid_card_total_label"
+            app:layout_constraintTop_toBottomOf="@+id/kid_card_total_label"
+            tools:text="$54.00" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

@@ -1,21 +1,17 @@
-package net.bradball.allowance.UI.LedgerItem
+package net.bradball.allowance.ui.LedgerItem
 
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
-import android.support.design.widget.TextInputLayout
-import android.support.v4.app.Fragment
-import android.text.Editable
+import com.google.android.material.textfield.TextInputEditText
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import kotlinx.android.synthetic.main.fragment_ledger_item.*
 import kotlinx.android.synthetic.main.fragment_ledger_item.view.*
 import net.bradball.allowance.R
-import net.bradball.allowance.UI.AllowanceFragment
-import net.bradball.allowance.UI.DatePickerFragment
+import net.bradball.allowance.ui.AllowanceFragment
+import net.bradball.allowance.ui.DatePickerFragment
 import net.bradball.allowance.util.empty
 import java.util.*
 

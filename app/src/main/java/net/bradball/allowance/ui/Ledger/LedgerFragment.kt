@@ -1,26 +1,21 @@
-package net.bradball.allowance.UI.Ledger
+package net.bradball.allowance.ui.Ledger
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
-import androidx.navigation.Navigation
 import kotlinx.android.synthetic.main.fragment_ledger.view.*
 import kotlinx.android.synthetic.main.fragment_ledger_list_item.view.*
 
 import net.bradball.allowance.R
-import net.bradball.allowance.UI.AllowanceFragment
-import net.bradball.allowance.UI.LedgerItem.LedgerItemFragment
+import net.bradball.allowance.ui.AllowanceFragment
 import net.bradball.allowance.models.LedgerEntry
 import net.bradball.allowance.util.empty
 import java.text.NumberFormat
@@ -93,13 +88,9 @@ class LedgerFragment : AllowanceFragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_ledger, container, false)
 
-        view.ledger_list.layoutManager = LinearLayoutManager(activity)
+        view.ledger_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         view.ledger_list.adapter = listAdapter
 
-        view.button_add_ledger_item?.setOnClickListener {
-            Navigation.findNavController(view).navigate(R.id.action_addLedgerItem, LedgerItemFragment.getArgsBundle(kidId))
-            Toast.makeText(activity, "FAB Clicked", Toast.LENGTH_LONG).show()
-        }
         return view
     }
 
@@ -142,9 +133,9 @@ class LedgerFragment : AllowanceFragment() {
         fun onFragmentInteraction()
     }
 
-    private inner class LedgerAdapter internal constructor(private val ledger: ArrayList<LedgerEntry>): RecyclerView.Adapter<LedgerAdapter.ViewHolder>() {
+    private inner class LedgerAdapter internal constructor(private val ledger: ArrayList<LedgerEntry>): androidx.recyclerview.widget.RecyclerView.Adapter<LedgerAdapter.ViewHolder>() {
 
-        internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        internal inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
             var descriptionLabel: TextView = itemView.ledger_item_description
             var creditLabel: TextView = itemView.ledger_item_credit
             var debitLabel: TextView = itemView.ledger_item_debit

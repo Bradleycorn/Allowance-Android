@@ -1,37 +1,20 @@
 package net.bradball.allowance.data.repos
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.Transformations
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import com.google.firebase.firestore.FirebaseFirestore
-import net.bradball.allowance.data.FirestoreDocumentLiveData
-import net.bradball.allowance.data.FirestoreQueryLiveData
+import net.bradball.allowance.data.store.IDataStore
+import net.bradball.allowance.data.store.firebase.FirestoreDocumentLiveData
+import net.bradball.allowance.data.store.firebase.FirestoreQueryLiveData
 import net.bradball.allowance.models.Kid
+import javax.inject.Inject
+import javax.inject.Singleton
 
-object KidsRepo {
-    private const val KIDS_COLLECTION = "kids"
-    private const val KIDS_FIELD_FIRSTNAME = "firstname"
+@Singleton
+class KidsRepo @Inject constructor(private val dataStore: IDataStore) {
+    fun getKids(): LiveData<List<Kid>> = dataStore.getKids()
 
-    private val kidsList = MutableLiveData<List<Kid>>()
-
-    fun getKids(): LiveData<List<Kid>> {
-
-        val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-        val data = FirestoreQueryLiveData(firestore.collection(KIDS_COLLECTION).orderBy(KIDS_FIELD_FIRSTNAME))
-
-        return Transformations.switchMap(data) {
-            val temp = it.toObjects(Kid::class.java)
-            kidsList.value = it.toObjects(Kid::class.java)
-            return@switchMap kidsList
-        }
-   }
-
-   fun getKid(id: String): LiveData<Kid> {
-       val kidData = MutableLiveData<Kid>()
-       val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
-       return Transformations.map(FirestoreDocumentLiveData(firestore.collection(KIDS_COLLECTION).document(id))) {
-           it.toObject(Kid::class.java)
-       }
-   }
+    fun getKid(id: String): LiveData<Kid> = dataStore.getKid(id)
 
 }

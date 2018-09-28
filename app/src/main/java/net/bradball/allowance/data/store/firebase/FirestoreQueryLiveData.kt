@@ -1,6 +1,6 @@
-package net.bradball.allowance.data
+package net.bradball.allowance.data.store.firebase
 
-import android.arch.lifecycle.LiveData
+import androidx.lifecycle.LiveData
 import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot

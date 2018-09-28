@@ -1,16 +1,14 @@
-package net.bradball.allowance.UI.EditMoney
+package net.bradball.allowance.ui.EditMoney
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.TextInputEditText
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kotlinx.android.synthetic.main.fragment_ledger_item.view.*
 import net.bradball.allowance.R
-import net.bradball.allowance.UI.AllowanceFragment
-import net.bradball.allowance.UI.DatePickerFragment
+import net.bradball.allowance.ui.AllowanceFragment
+import net.bradball.allowance.ui.DatePickerFragment
 import net.bradball.allowance.util.empty
 import java.util.*
 
@@ -37,16 +35,16 @@ class EditMoneyFragment : AllowanceFragment() {
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_ledger_item, container, false)
-        dateEditText = view.ledger_item_date
+        //dateEditText = view.ledger_item_date
 
 
-        dateEditText.setOnClickListener {
+        //dateEditText.setOnClickListener {
 
 
-            val dialog = DatePickerFragment.newInstance(Date())
-            dialog.setTargetFragment(this, DATE_REQUEST)
-            dialog.show(fragmentManager, DATE_DIALOG)
-        }
+//            val dialog = DatePickerFragment.newInstance(Date())
+//            dialog.setTargetFragment(this, DATE_REQUEST)
+//            dialog.show(fragmentManager, DATE_DIALOG)
+//        }
 
         return view
     }
@@ -55,7 +53,7 @@ class EditMoneyFragment : AllowanceFragment() {
         when (requestCode) {
             DATE_REQUEST -> {
                 val selectedDate: Date = data.getSerializableExtra(DatePickerFragment.EXTRA_DATE) as Date
-                dateEditText.setText(selectedDate.toString())
+                //dateEditText.setText(selectedDate.toString())
             }
         }
     }

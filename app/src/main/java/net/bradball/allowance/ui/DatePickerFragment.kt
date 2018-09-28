@@ -1,19 +1,17 @@
-package net.bradball.allowance.UI
+package net.bradball.allowance.ui
 
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.DialogFragment
 import android.view.LayoutInflater
 import android.widget.DatePicker
-import kotlinx.android.synthetic.main.fragment_date_picker.*
 import kotlinx.android.synthetic.main.fragment_date_picker.view.*
 import net.bradball.allowance.R
 import java.util.*
 
-class DatePickerFragment: DialogFragment() {
+class DatePickerFragment: androidx.fragment.app.DialogFragment() {
     companion object {
         const val EXTRA_DATE = "net.bradball.android.allowance.date"
         private const val DATE_ARG = "date"
