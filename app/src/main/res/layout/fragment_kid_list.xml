@@ -9,7 +9,7 @@
         android:id="@+id/kid_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.KidList.KidListFragment"
+        tools:context=".uinew.KidList.KidListFragment"
         />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
