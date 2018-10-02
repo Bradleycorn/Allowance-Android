@@ -1,6 +1,7 @@
 package net.bradball.allowance.ui
 
 import androidx.appcompat.app.AppCompatActivity
+
 import dagger.android.support.DaggerFragment
 
 open class AllowanceFragment: DaggerFragment() {

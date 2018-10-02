@@ -17,6 +17,7 @@
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/Widget.MaterialComponents.BottomAppBar"
         android:layout_gravity="bottom"
         app:backgroundTint="@color/colorPrimary"
         app:navigationIcon="@drawable/ic_menu_white"
@@ -30,7 +31,7 @@
         android:src="@drawable/ic_add_white_24dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_anchor="@id/bottom_app_bar"/>
+        app:layout_anchor="@id/bottom_app_bar" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 

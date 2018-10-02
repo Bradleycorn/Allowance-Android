@@ -20,7 +20,7 @@ abstract class ViewModelBuildersModule {
     @Binds
     @IntoMap
     @ViewModelKey(LedgerViewModel::class)
-    abstract fun bindLedger ViewModel(kidListViewModel: KidListViewModel): ViewModel
+    abstract fun bindLedgerViewModel(kidListViewModel: LedgerViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: ViewModelFactory): ViewModelProvider.Factory

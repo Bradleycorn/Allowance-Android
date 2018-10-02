@@ -1,8 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/kid_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.KidList.KidListFragment" />
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/kid_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ui.KidList.KidListFragment"
+        />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/kid_list_fab_add_kid"
+        app:fabSize="mini"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="62dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

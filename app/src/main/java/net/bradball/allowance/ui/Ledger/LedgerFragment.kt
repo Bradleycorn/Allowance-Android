@@ -15,11 +15,13 @@ import kotlinx.android.synthetic.main.fragment_ledger.view.*
 import kotlinx.android.synthetic.main.fragment_ledger_list_item.view.*
 
 import net.bradball.allowance.R
+import net.bradball.allowance.di.ViewModelFactory
 import net.bradball.allowance.ui.AllowanceFragment
 import net.bradball.allowance.models.LedgerEntry
 import net.bradball.allowance.util.empty
 import java.text.NumberFormat
 import java.util.ArrayList
+import javax.inject.Inject
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_KID_ID = "kidId"
@@ -35,6 +37,10 @@ private const val ARG_KID_NAME = "kidName"
  *
  */
 class LedgerFragment : AllowanceFragment() {
+
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelFactory
+
     private var kidId: String = ""
     private var listener: onLedgerInteraction? = null
 
@@ -69,7 +75,7 @@ class LedgerFragment : AllowanceFragment() {
             setToolbarTitle(it.getString(ARG_KID_NAME))
         }
 
-        viewModel = ViewModelProviders.of(this).get(LedgerViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(LedgerViewModel::class.java)
         viewModel.getLedger(kidId).observe(this, Observer {
             ledger.clear()
             if (it != null) {
