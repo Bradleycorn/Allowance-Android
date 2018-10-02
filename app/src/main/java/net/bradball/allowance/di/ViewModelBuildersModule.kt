@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+
 import net.bradball.allowance.ui.KidList.KidListViewModel
 import net.bradball.allowance.ui.Ledger.LedgerViewModel
 
 @Suppress("unused")
 @Module
 abstract class ViewModelBuildersModule {
+
     @Binds
     @IntoMap
     @ViewModelKey(KidListViewModel::class)

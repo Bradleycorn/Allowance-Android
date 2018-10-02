@@ -1,14 +1,14 @@
 package net.bradball.allowance.ui.KidList
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
 import net.bradball.allowance.data.repos.KidsRepo
 import net.bradball.allowance.models.Kid
+import javax.inject.Inject
 
-class KidListViewModel: ViewModel() {
+class KidListViewModel @Inject constructor(private val kidsRepo: KidsRepo): ViewModel() {
 
     fun getKidList(): LiveData<List<Kid>> {
-        return KidsRepo.getKids()
+        return kidsRepo.getKids()
     }
 }
