@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.Navigation
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 
@@ -67,6 +68,8 @@ class KidListFragment : AllowanceFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_kid_list, container, false)
+
+        val fab = view.kid_list_fab_add_kid as FloatingActionButton
 
         view.kid_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         view.kid_list.adapter = listAdapter

@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/kid_list_fab_add_kid"
         app:fabSize="mini"
+        style="@style/Widget.MaterialComponents.FloatingActionButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginEnd="40dp"
