@@ -66,6 +66,14 @@ class MainActivity : DaggerAppCompatActivity(), KidListFragment.OnFragmentIntera
     }
 }
 
+interface FabMenu {
+    fun onCreateFabMenu(menu: Menu): Unit {
+
+    }
+}
+
+Fab
+
 class NavigationMenu(context: Context) : MenuBuilder(context) {
 
     override fun addSubMenu(group: Int, id: Int, categoryOrder: Int, title: CharSequence): SubMenu {
@@ -74,4 +82,8 @@ class NavigationMenu(context: Context) : MenuBuilder(context) {
         item.setSubMenu(subMenu)
         return subMenu
     }
+}
+
+class FabMenuActivity: DaggerAppCompatActivity() {
+
 }

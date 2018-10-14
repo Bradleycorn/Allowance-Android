@@ -74,6 +74,8 @@ class KidListFragment : AllowanceFragment() {
         view.kid_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         view.kid_list.adapter = listAdapter
 
+        view.
+
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(KidListViewModel::class.java)
         viewModel.getKidList().observe(this, Observer<List<Kid>> { list -> listAdapter.submitList(list) })
 
