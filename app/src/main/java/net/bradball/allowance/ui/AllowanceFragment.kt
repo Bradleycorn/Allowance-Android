@@ -9,4 +9,5 @@ open class AllowanceFragment: DaggerFragment() {
     protected fun setToolbarTitle(title: String) {
         (activity as AppCompatActivity).supportActionBar?.title = title
     }
+
 }
