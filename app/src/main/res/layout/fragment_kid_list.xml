@@ -12,15 +12,4 @@
         tools:context=".ui.KidList.KidListFragment"
         />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/kid_list_fab_add_kid"
-        app:fabSize="mini"
-        style="@style/Widget.MaterialComponents.FloatingActionButton"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="40dp"
-        android:layout_marginBottom="62dp"/>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <item android:title="Add Kid"
+        android:icon="@drawable/ic_add_kid" />
+
+    <item android:title="Add Money"
+        android:icon="@drawable/ic_add_money"/>
+
+</menu>

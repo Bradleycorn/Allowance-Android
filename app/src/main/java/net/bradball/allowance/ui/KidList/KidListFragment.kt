@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.DiffUtil
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -21,6 +23,7 @@ import net.bradball.allowance.di.ViewModelFactory
 import net.bradball.allowance.ui.Ledger.LedgerFragment
 import net.bradball.allowance.models.Kid
 import net.bradball.allowance.ui.AllowanceFragment
+import net.bradball.allowance.util.fabMenu.HasFabMenu
 import java.text.NumberFormat
 import javax.inject.Inject
 
@@ -33,7 +36,7 @@ import javax.inject.Inject
  * create an instance of this fragment.
  *
  */
-class KidListFragment : AllowanceFragment() {
+class KidListFragment : AllowanceFragment(), HasFabMenu {
 
     companion object {
         /**
@@ -69,12 +72,8 @@ class KidListFragment : AllowanceFragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_kid_list, container, false)
 
-        val fab = view.kid_list_fab_add_kid as FloatingActionButton
-
         view.kid_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         view.kid_list.adapter = listAdapter
-
-        view.
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(KidListViewModel::class.java)
         viewModel.getKidList().observe(this, Observer<List<Kid>> { list -> listAdapter.submitList(list) })
@@ -96,6 +95,11 @@ class KidListFragment : AllowanceFragment() {
     override fun onDetach() {
         super.onDetach()
         listener = null
+    }
+
+    override fun onCreateFabMenu(menu: Menu, menuInflater: MenuInflater): Boolean {
+        menuInflater.inflate(R.menu.kid_list_fab_menu, menu)
+        return true
     }
 
     /**

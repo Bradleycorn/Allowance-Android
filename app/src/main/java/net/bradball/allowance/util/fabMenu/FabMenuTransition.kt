@@ -6,7 +6,7 @@ import android.view.View
 
 open class FabMenuTransition(private val duration: Long = DEFAULT_ANIMATION_DURATION) {
 
-    open fun getOpeningAnimation(element: View, destX: Float, destY: Float): AnimatorSet {
+    open fun getOpeningAnimation(element: View, itemOpenPosition: FabMenuItemPosition): AnimatorSet {
         val anim = AnimatorSet()
         val rotateMainFAB = ObjectAnimator.ofFloat<View>(element, View.ROTATION, 0f)
         rotateMainFAB.duration = duration
@@ -14,7 +14,7 @@ open class FabMenuTransition(private val duration: Long = DEFAULT_ANIMATION_DURA
         return anim
     }
 
-    open fun getClosingAnimation(element: View, destX: Float, destY: Float): AnimatorSet {
+    open fun getClosingAnimation(element: View, itemClosedPosition: FabMenuItemPosition): AnimatorSet {
         val anim = AnimatorSet()
         val rotateMainFAB = ObjectAnimator.ofFloat<View>(element, View.ROTATION, 0f)
         rotateMainFAB.duration = duration

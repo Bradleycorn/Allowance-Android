@@ -1,24 +1,35 @@
 package net.bradball.allowance.util.fabMenu
 
+import net.bradball.allowance.R
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
+import android.content.res.ColorStateList
+import android.content.res.Resources
+import android.view.Gravity
 import android.view.Menu
+import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.android.support.DaggerAppCompatActivity
-import net.bradball.allowance.util.fabMenu.patterns.VerticalPattern
+import kotlinx.android.synthetic.main.activity_main.*
+import net.bradball.allowance.util.fabMenu.patterns.VerticalCoordinatorPattern
+import net.bradball.allowance.util.dpToPx
 
 const val DEFAULT_ANIMATION_DURATION = 200L
 
 interface HasFabMenu {
-    fun onCreateFabMenu(menu: Menu): Boolean = false
+    fun onCreateFabMenu(menu: Menu, menuInflator: MenuInflater): Boolean = false
 }
 
-abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
+abstract class FabActivity: DaggerAppCompatActivity() {
 
     private var fabMenu: Menu? = null
     private var fabMenuIsValid = false
@@ -27,7 +38,7 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
     private var isFabMenuOpen = false
     private var fabMenuContainer: ViewGroup? = null
     private val fabMenuItems: MutableList<FabMenuItem> = mutableListOf()
-    protected var fabMenuPattern = VerticalPattern()
+    protected var fabMenuPattern = VerticalCoordinatorPattern()
 
     protected fun setFabMenuAnchor(view: FloatingActionButton) {
         fabMenuAnchor = view
@@ -45,8 +56,11 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
         //TODO = If we change the menu container, we should probably clear out any existing menu
     }
 
+    fun onCreateFabMenu(menu: Menu): Boolean {
+        return false
+    }
+
     private fun handleFabClick() {
-        //TODO: handle fab open vs close click
         when (isFabMenuOpen) {
             false -> openMenu()
             true -> closeMenu()
@@ -59,8 +73,10 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
         }
         if (fabMenuItems.isNotEmpty()) {
             val anim = AnimatorSet()
-            val animBuilder = anim.play(fabMenuAnchorTransition.getOpeningAnimation(fabMenuAnchor!!, fabMenuAnchor!!.x, fabMenuAnchor!!.y))
+            val animBuilder = anim.play(fabMenuAnchorTransition.getOpeningAnimation(fabMenuAnchor!!, FabMenuItemPosition(x=fabMenuAnchor!!.x, y=fabMenuAnchor!!.y)))
             fabMenuItems.forEach {
+                it.miniFab.alpha = 0F
+                it.miniFab.visibility = View.VISIBLE
                 animBuilder.with(it.openingAnimation)
             }
             anim.start()
@@ -72,7 +88,7 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
         if (fabMenuItems.isNotEmpty()) {
             //Do the animation before removing the view
             val anim = AnimatorSet()
-            val animBuilder = anim.play(fabMenuAnchorTransition.getClosingAnimation(fabMenuAnchor!!, fabMenuAnchor!!.x, fabMenuAnchor!!.y))
+            val animBuilder = anim.play(fabMenuAnchorTransition.getClosingAnimation(fabMenuAnchor!!,  FabMenuItemPosition(x=fabMenuAnchor!!.x, y=fabMenuAnchor!!.y)))
             for (fabMenuItem in fabMenuItems) {
                 animBuilder.with(fabMenuItem.closingAnimation)
             }
@@ -111,7 +127,7 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
     private fun dispatchFragmentCreateFabMenu(fragments: List<Fragment>, menu: Menu): Boolean {
         var show = false
         fragments.forEach {
-            if (it is HasFabMenu && it.isAdded && !it.isHidden) {
+            if (it.isAdded && !it.isHidden) {
                 show = show.or(handleFragmentFabMenu(it, fabMenu!!))
             }
         }
@@ -120,7 +136,7 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
 
     private fun handleFragmentFabMenu(fragment: Fragment, menu: Menu): Boolean {
         val show = when (fragment) {
-            is HasFabMenu -> fragment.onCreateFabMenu(menu)
+            is HasFabMenu -> fragment.onCreateFabMenu(menu, menuInflater)
             else -> false
         }
         return show.or(dispatchFragmentCreateFabMenu(fragment.childFragmentManager.fragments, menu))
@@ -131,24 +147,60 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
         fabMenuItems.clear()
         for (i in 0.until(menu.size())) {
             val item = menu.getItem(i)
-            val button = createMenuItemFab(item)
+            val button = createMenuItemFab(item, i+1)
             val menuItem: FabMenuItem
 
-            val closedPosition = FabMenuItemPosition(button.x, button.y)
-            menuItem = FabMenuItem(button)
-            menuItem.setAnimations(fabMenuPattern, closedPosition, i, menu.size())
+            button.alpha = 0F
+            (button as View).visibility = View.GONE
+            fabMenuContainer!!.addView(button)
 
-            fabMenuContainer?.addView(button)
+            val closedPosition = fabMenuPattern.getClosedPosition(button, fabMenuAnchor!!, i+1, menu.size())
+            val openPosition = fabMenuPattern.getOpenPosition(button, fabMenuAnchor!!, i + 1, menu.size())
+
+            with(closedPosition) {
+                if (x != null) button.x = x
+                if (y != null) button.y = y
+                if (layoutParams != null) {
+                    button.layoutParams = layoutParams
+                }
+            }
+
+            menuItem = FabMenuItem(button)
+            menuItem.setAnimations(fabMenuPattern, closedPosition, openPosition)
+
             fabMenuItems.add(menuItem)
         }
     }
 
-    private fun createMenuItemFab(menuItem: MenuItem): FloatingActionButton {
+    private fun createMenuItemFab(menuItem: MenuItem, itemOrder: Int): View {
+        val layout = LinearLayout(this)
+        layout.orientation = LinearLayout.HORIZONTAL
+        layout.setVerticalGravity(Gravity.CENTER_VERTICAL)
+
+        val chip = Chip(this, null, R.style.Widget_MaterialComponents_Chip_Action)
+        val chipLayout = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        chipLayout.height = 20.dpToPx().toInt()
+        chip.layoutParams = chipLayout
+        chip.isCheckable = false
+        chip.chipCornerRadius = 2.dpToPx()
+        chip.text = menuItem.title
+        chip.setTextColor(getColor(android.R.color.black))
+        chip.textEndPadding = 0F
+        chip.textStartPadding = 0F
+
+
+        layout.addView(chip)
+
         val newButton = FloatingActionButton(this)
+
+        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
+        params.marginStart = 16.dpToPx().toInt()
+        newButton.layoutParams = params
+
+
+        newButton.id = menuItem.itemId
         newButton.size = FloatingActionButton.SIZE_MINI
         newButton.setImageDrawable(menuItem.icon)
-        newButton.x = fabMenuAnchor!!.x
-        newButton.y = fabMenuAnchor!!.y
 
         newButton.setOnClickListener {
             onOptionsItemSelected(menuItem)
@@ -158,8 +210,9 @@ abstract class FabActivity: DaggerAppCompatActivity(), HasFabMenu {
 //                    fragment?.onOptionsItemSelected(menuItem)
 //                }
         }
+        layout.addView(newButton)
 
-        return newButton
+        return layout
     }
 
 
