@@ -10,10 +10,16 @@ import androidx.recyclerview.widget.DiffUtil
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.navigation.NavHost
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 
@@ -77,6 +83,8 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(KidListViewModel::class.java)
         viewModel.getKidList().observe(this, Observer<List<Kid>> { list -> listAdapter.submitList(list) })
 
+        setHasOptionsMenu(true)
+
         return view
     }
 
@@ -99,6 +107,20 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
     override fun onCreateFabMenu(menu: Menu, menuInflater: MenuInflater): Boolean {
         menuInflater.inflate(R.menu.kid_list_fab_menu, menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.fab_add_kid -> {
+                NavHostFragment.findNavController(this).navigate(R.id.action_kidListFragment_to_editKidFragment)
+                true
+            }
+            R.id.fab_Add_money -> {
+                Toast.makeText(requireContext(), "Add Money Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     /**

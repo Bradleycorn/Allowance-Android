@@ -2,6 +2,7 @@ package net.bradball.allowance.di
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import net.bradball.allowance.ui.EditKid.EditKidFragment
 import net.bradball.allowance.ui.KidList.KidListFragment
 
 @Suppress("unused")
@@ -9,5 +10,8 @@ import net.bradball.allowance.ui.KidList.KidListFragment
 abstract class FragmentBuildersModule {
     @ContributesAndroidInjector
     abstract fun contributeKidListFragment(): KidListFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeEditKidFragment(): EditKidFragment
 
 }
