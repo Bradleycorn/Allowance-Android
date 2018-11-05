@@ -1,7 +1,6 @@
 package net.bradball.allowance.ui
 
 import android.os.Bundle
-import android.view.Menu
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -9,10 +8,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 import net.bradball.allowance.R
 import net.bradball.allowance.ui.KidList.KidListFragment
 import net.bradball.allowance.ui.Ledger.LedgerFragment
-import net.bradball.allowance.util.fabMenu.FabActivity
+import net.bradball.allowance.util.fabMenu.FabMenuActivity
 
 
-class MainActivity : FabActivity(), KidListFragment.OnFragmentInteractionListener, LedgerFragment.onLedgerInteraction {
+class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionListener, LedgerFragment.onLedgerInteraction {
 
     private lateinit var bottomAppBar: BottomAppBar
 

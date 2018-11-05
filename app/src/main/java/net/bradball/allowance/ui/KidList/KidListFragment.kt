@@ -14,7 +14,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.Navigation
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 
@@ -23,7 +22,7 @@ import net.bradball.allowance.di.ViewModelFactory
 import net.bradball.allowance.ui.Ledger.LedgerFragment
 import net.bradball.allowance.models.Kid
 import net.bradball.allowance.ui.AllowanceFragment
-import net.bradball.allowance.util.fabMenu.HasFabMenu
+import net.bradball.allowance.util.fabMenu.IHasFabMenu
 import java.text.NumberFormat
 import javax.inject.Inject
 
@@ -36,7 +35,7 @@ import javax.inject.Inject
  * create an instance of this fragment.
  *
  */
-class KidListFragment : AllowanceFragment(), HasFabMenu {
+class KidListFragment : AllowanceFragment(), IHasFabMenu {
 
     companion object {
         /**

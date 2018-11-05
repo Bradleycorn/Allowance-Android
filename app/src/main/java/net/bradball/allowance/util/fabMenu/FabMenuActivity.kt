@@ -1,12 +1,10 @@
 package net.bradball.allowance.util.fabMenu
 
-import net.bradball.allowance.R
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
 import android.view.Gravity
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -17,16 +15,11 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.android.support.DaggerAppCompatActivity
-import net.bradball.allowance.util.fabMenu.patterns.VerticalCoordinatorPattern
+import net.bradball.allowance.R
 import net.bradball.allowance.util.dpToPx
+import net.bradball.allowance.util.fabMenu.patterns.VerticalCoordinatorPattern
 
-const val DEFAULT_ANIMATION_DURATION = 200L
-
-interface HasFabMenu {
-    fun onCreateFabMenu(menu: Menu, menuInflator: MenuInflater): Boolean = false
-}
-
-abstract class FabActivity: DaggerAppCompatActivity() {
+abstract class FabMenuActivity: DaggerAppCompatActivity() {
 
     private var fabMenu: Menu? = null
     private var fabMenuIsValid = false
@@ -152,7 +145,7 @@ abstract class FabActivity: DaggerAppCompatActivity() {
 
     private fun handleFragmentFabMenu(fragment: Fragment, menu: Menu): Boolean {
         val show = when (fragment) {
-            is HasFabMenu -> fragment.onCreateFabMenu(menu, menuInflater)
+            is IHasFabMenu -> fragment.onCreateFabMenu(menu, menuInflater)
             else -> false
         }
         return show.or(dispatchFragmentCreateFabMenu(fragment.childFragmentManager.fragments, menu))
@@ -260,9 +253,4 @@ abstract class FabActivity: DaggerAppCompatActivity() {
             }).start()
         }
     }
-
-
-
 }
-
-
