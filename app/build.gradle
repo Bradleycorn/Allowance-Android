@@ -5,14 +5,14 @@ apply plugin: 'kotlin-kapt'
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 28
     defaultConfig {
         applicationId "net.bradball.allowance"
         minSdkVersion 23
-        targetSdkVersion 27
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -30,31 +30,37 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.android.support:appcompat-v7:$supportCompatVersion"
-    implementation "com.android.support:support-v4:$supportCompatVersion"
+
 
     // Android Components
-    implementation 'com.android.support.constraint:constraint-layout:1.1.2'
-    implementation "com.android.support:recyclerview-v7:$supportCompatVersion"
-    implementation "com.android.support:cardview-v7:$supportCompatVersion"
+    implementation "androidx.legacy:legacy-support-v4:$androidxVersion"
+    implementation "androidx.appcompat:appcompat:$androidxVersion"
+    implementation "androidx.recyclerview:recyclerview:$androidxVersion"
+    implementation "androidx.cardview:cardview:$androidxVersion"
+    implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxVersion"
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'com.google.android.material:material:1.0.0-rc02'
 
     // Testing
-    implementation 'com.android.support:design:27.1.1'
-    implementation 'com.android.support:support-v4:27.1.1'
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    testImplementation "org.mockito:mockito-core:$mockitoVersion"
+    testImplementation "org.robolectric:robolectric:$robolectricVersion"
+    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
 
     // Dagger2
     implementation "com.google.dagger:dagger:$daggerVersion"
+    implementation "com.google.dagger:dagger-android:$daggerVersion"
+    implementation "com.google.dagger:dagger-android-support:$daggerVersion"
     kapt "com.google.dagger:dagger-compiler:$daggerVersion"
+    kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // JetPack
-    implementation "android.arch.lifecycle:extensions:$jetpackVersion"
-    implementation "android.arch.lifecycle:viewmodel:$jetpackVersion"
-    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha02'
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha02'
-    testImplementation("android.arch.core:core-testing:$jetpackVersion", {
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06'
+    testImplementation('androidx.arch.core:core-testing:2.0.0-rc01', {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
         exclude group: 'com.android.support', module: 'support-core-utils'
@@ -67,7 +73,8 @@ dependencies {
     implementation "com.android.volley:volley:$volleyVersion"
 
     // FIREBASE
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-firestore:17.0.1'
+    implementation 'com.google.firebase:firebase-core:16.0.3'
+    implementation 'com.google.firebase:firebase-firestore:17.1.0'
+
 
 }

@@ -1,11 +1,11 @@
 package net.bradball.allowance.models
 
-import net.bradball.allowance.data.FirestoreDocument
+import net.bradball.allowance.data.DataStoreRecord
 import java.util.*
 
-data class LedgerEntry(val id: Int, val kidId: String, var date: Date, var description: String, var amount: Double) : FirestoreDocument {
+data class LedgerEntry(val id: Int, val kidId: String, var date: Date, var description: String, var amount: Double) : DataStoreRecord {
 
     override
-    val docId: String
+    val recordId: String
         get() = date.time.toString()
 }

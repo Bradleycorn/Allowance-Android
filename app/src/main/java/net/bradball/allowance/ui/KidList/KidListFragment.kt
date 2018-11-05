@@ -1,16 +1,15 @@
-package net.bradball.allowance.UI
+package net.bradball.allowance.ui.KidList
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -19,9 +18,13 @@ import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 
 import net.bradball.allowance.R
+import net.bradball.allowance.di.ViewModelFactory
+import net.bradball.allowance.ui.Ledger.LedgerFragment
 import net.bradball.allowance.models.Kid
+import net.bradball.allowance.ui.AllowanceFragment
+import net.bradball.allowance.util.fabMenu.IHasFabMenu
 import java.text.NumberFormat
-import java.util.ArrayList
+import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
@@ -32,7 +35,7 @@ import java.util.ArrayList
  * create an instance of this fragment.
  *
  */
-class KidListFragment : Fragment() {
+class KidListFragment : AllowanceFragment(), IHasFabMenu {
 
     companion object {
         /**
@@ -44,10 +47,23 @@ class KidListFragment : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() = KidListFragment()
+
+        private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Kid>() {
+            override fun areItemsTheSame(oldItem: Kid, newItem: Kid): Boolean {
+                return oldItem.recordId == newItem.recordId
+            }
+
+            override fun areContentsTheSame(oldItem: Kid, newItem: Kid): Boolean {
+                return oldItem.equals(newItem)
+            }
+        }
     }
 
     private var listener: OnFragmentInteractionListener? = null
-    private val listAdapter  = KidListAdapter()
+    private val listAdapter = KidListAdapter()
+
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelFactory
 
     private lateinit var viewModel: KidListViewModel
 
@@ -55,13 +71,11 @@ class KidListFragment : Fragment() {
         // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_kid_list, container, false)
 
-        view.kid_list.layoutManager = LinearLayoutManager(activity)
+        view.kid_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         view.kid_list.adapter = listAdapter
 
-        viewModel = ViewModelProviders.of(this).get(KidListViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(KidListViewModel::class.java)
         viewModel.getKidList().observe(this, Observer<List<Kid>> { list -> listAdapter.submitList(list) })
-
-
 
         return view
     }
@@ -82,6 +96,11 @@ class KidListFragment : Fragment() {
         listener = null
     }
 
+    override fun onCreateFabMenu(menu: Menu, menuInflater: MenuInflater): Boolean {
+        menuInflater.inflate(R.menu.kid_list_fab_menu, menu)
+        return true
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -95,37 +114,26 @@ class KidListFragment : Fragment() {
      */
     interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
-    }
-
-    private val DIFF_CALLBACK = object: DiffUtil.ItemCallback<Kid>() {
-        override fun areItemsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
-            return oldItem?.docId == newItem?.docId ?: false
-        }
-
-        override fun areContentsTheSame(oldItem: Kid?, newItem: Kid?): Boolean {
-            return oldItem?.equals(newItem) ?: false
-        }
+        fun onFragmentInteraction()
     }
 
 
     private inner class KidListAdapter internal constructor(): ListAdapter<Kid, KidListAdapter.ViewHolder>(DIFF_CALLBACK) {
-
-
-
-        internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            private val nameLabel: TextView = itemView.kid_name
-            private val balanceLabel: TextView = itemView.kid_balance
+        internal inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
+            private val nameView: TextView = itemView.kid_card_name
+            private val spendMoneyView: TextView = itemView.kid_card_spend_money
+            private val totalView: TextView = itemView.kid_card_total
 
             fun bindKid(kid: Kid) {
 
                 val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance();
 
-                nameLabel.text = kid.firstname
-                balanceLabel.text = currencyFormatter.format(kid.balance)
+                nameView.text = kid.firstname
+                spendMoneyView.text = currencyFormatter.format(kid.balance)
+                totalView.text = currencyFormatter.format(kid.balance)
 
                 itemView.setOnClickListener {
-                    Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.docId))
+                    Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.recordId, kid.firstname))
                     // Navigation.createNavigateOnClickListener(R.id.ledgerFragment, LedgerFragment.getArgsBundle(kid.id))
                 }
 

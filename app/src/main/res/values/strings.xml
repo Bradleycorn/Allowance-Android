@@ -3,6 +3,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="date_picker_title">Select Date</string>
+    <string name="kid_card_image_description">Image of Kid</string>
 </resources>
