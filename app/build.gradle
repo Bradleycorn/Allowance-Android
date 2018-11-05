@@ -39,14 +39,14 @@ dependencies {
     implementation "androidx.cardview:cardview:$androidxVersion"
     implementation "androidx.coordinatorlayout:coordinatorlayout:$androidxVersion"
     implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
-    implementation 'com.google.android.material:material:1.0.0-rc02'
+    implementation 'com.google.android.material:material:1.0.0'
 
     // Testing
     testImplementation 'junit:junit:4.12'
     testImplementation "org.mockito:mockito-core:$mockitoVersion"
     testImplementation "org.robolectric:robolectric:$robolectricVersion"
-    androidTestImplementation 'androidx.test:runner:1.1.0-alpha4'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0-alpha4'
+    androidTestImplementation 'androidx.test:runner:1.1.0'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.0'
 
     // Dagger2
     implementation "com.google.dagger:dagger:$daggerVersion"
@@ -56,10 +56,10 @@ dependencies {
     kapt "com.google.dagger:dagger-android-processor:$daggerVersion"
 
     // JetPack
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0-rc01'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.0.0'
     implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
-    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha06'
-    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha06'
+    implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0-alpha07'
+    implementation 'android.arch.navigation:navigation-ui-ktx:1.0.0-alpha07'
     testImplementation('androidx.arch.core:core-testing:2.0.0-rc01', {
         exclude group: 'com.android.support', module: 'support-compat'
         exclude group: 'com.android.support', module: 'support-annotations'
@@ -73,8 +73,8 @@ dependencies {
     implementation "com.android.volley:volley:$volleyVersion"
 
     // FIREBASE
-    implementation 'com.google.firebase:firebase-core:16.0.3'
-    implementation 'com.google.firebase:firebase-firestore:17.1.0'
+    implementation 'com.google.firebase:firebase-core:16.0.5'
+    implementation 'com.google.firebase:firebase-firestore:17.1.2'
 
 
 }
