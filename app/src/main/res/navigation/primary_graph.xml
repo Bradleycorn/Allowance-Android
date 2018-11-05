@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/kidListFragment"
-        android:name="net.bradball.allowance.UI.KidListFragment"
+        android:name="net.bradball.allowance.ui.KidList.KidListFragment"
         android:label="My Kids"
         tools:layout="@layout/fragment_kid_list">
         <action
@@ -16,7 +16,23 @@
     </fragment>
     <fragment
         android:id="@+id/ledgerFragment"
-        android:name="net.bradball.allowance.UI.LedgerFragment"
+        android:name="net.bradball.allowance.ui.Ledger.LedgerFragment"
         android:label="Ledger"
-        tools:layout="@layout/fragment_ledger" />
+        tools:layout="@layout/fragment_ledger" >
+        <action
+            android:id="@+id/action_addLedgerItem"
+            app:destination="@id/addLedgerItemFragment" />
+        <argument
+            android:name="kidId" />
+        <argument
+            android:name="kidName" />
+    </fragment>
+    <fragment
+        android:id="@+id/addLedgerItemFragment"
+        android:name="net.bradball.allowance.ui.LedgerItem.LedgerItemFragment"
+        android:label="Add Entry"
+        tools:layout="@layout/fragment_ledger_item">
+        <argument
+            android:name="kidId"/>
+    </fragment>
 </navigation>

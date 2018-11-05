@@ -1,28 +1,31 @@
-package net.bradball.allowance.UI
+package net.bradball.allowance.ui.Ledger
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.content.Context
 import android.net.Uri
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_ledger.view.*
 import kotlinx.android.synthetic.main.fragment_ledger_list_item.view.*
 
 import net.bradball.allowance.R
+import net.bradball.allowance.di.ViewModelFactory
+import net.bradball.allowance.ui.AllowanceFragment
 import net.bradball.allowance.models.LedgerEntry
+import net.bradball.allowance.util.empty
 import java.text.NumberFormat
 import java.util.ArrayList
+import javax.inject.Inject
 
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_KID_ID = "kidId"
+private const val ARG_KID_NAME = "kidName"
 
 /**
  * A simple [Fragment] subclass.
@@ -33,7 +36,11 @@ private const val ARG_KID_ID = "kidId"
  * create an instance of this fragment.
  *
  */
-class LedgerFragment : Fragment() {
+class LedgerFragment : AllowanceFragment() {
+
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelFactory
+
     private var kidId: String = ""
     private var listener: onLedgerInteraction? = null
 
@@ -51,27 +58,34 @@ class LedgerFragment : Fragment() {
          */
         // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun getArgsBundle(kidId: String) = Bundle().apply {
+        fun getArgsBundle(kidId: String, kidName: String) = Bundle().apply {
             putString(ARG_KID_ID, kidId)
+            putString(ARG_KID_NAME, kidName)
         }
 
     }
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         arguments?.let {
-            kidId = it.getString(ARG_KID_ID, "")
+            kidId = it.getString(ARG_KID_ID, String.empty)
+            setToolbarTitle(it.getString(ARG_KID_NAME))
         }
 
-        viewModel = ViewModelProviders.of(this).get(LedgerViewModel::class.java)
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(LedgerViewModel::class.java)
         viewModel.getLedger(kidId).observe(this, Observer {
             ledger.clear()
             if (it != null) {
                 ledger.addAll(it)
             }
             listAdapter.notifyDataSetChanged()
+        })
+
+        viewModel.getKid(kidId).observe(this, Observer {
+            (activity as AppCompatActivity).supportActionBar?.title = it?.firstname
         })
     }
 
@@ -80,7 +94,7 @@ class LedgerFragment : Fragment() {
         // Inflate the layout for this fragment
         val view =  inflater.inflate(R.layout.fragment_ledger, container, false)
 
-        view.ledger_list.layoutManager = LinearLayoutManager(activity)
+        view.ledger_list.layoutManager = androidx.recyclerview.widget.LinearLayoutManager(activity)
         view.ledger_list.adapter = listAdapter
 
         return view
@@ -88,7 +102,7 @@ class LedgerFragment : Fragment() {
 
     // TODO: Rename method, update argument and hook method into UI event
     fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction(uri)
+        listener?.onFragmentInteraction()
     }
 
     override fun onAttach(context: Context) {
@@ -99,7 +113,8 @@ class LedgerFragment : Fragment() {
             throw RuntimeException(context.toString() + " must implement onLedgerInteraction")
         }
 
-        activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
+        //activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
+
 
     }
 
@@ -121,12 +136,12 @@ class LedgerFragment : Fragment() {
      */
     interface onLedgerInteraction {
         // TODO: Update argument type and name
-        fun onFragmentInteraction(uri: Uri)
+        fun onFragmentInteraction()
     }
 
-    private inner class LedgerAdapter internal constructor(private val ledger: ArrayList<LedgerEntry>): RecyclerView.Adapter<LedgerAdapter.ViewHolder>() {
+    private inner class LedgerAdapter internal constructor(private val ledger: ArrayList<LedgerEntry>): androidx.recyclerview.widget.RecyclerView.Adapter<LedgerAdapter.ViewHolder>() {
 
-        internal inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        internal inner class ViewHolder(itemView: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
             var descriptionLabel: TextView = itemView.ledger_item_description
             var creditLabel: TextView = itemView.ledger_item_credit
             var debitLabel: TextView = itemView.ledger_item_debit

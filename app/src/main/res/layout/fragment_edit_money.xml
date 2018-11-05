@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/editMoneyContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/editmoney_kid_picker_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Add Money For" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/editmoney_kid_picker"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editmoney_kid_picker_label" />
+
+    <View
+        android:id="@+id/editmoney_kid_divider"
+        android:layout_width="0dp"
+        android:layout_height="2dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editmoney_kid_picker" />
+
+    <TextView
+        android:id="@+id/editmoney_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:textSize="48sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editmoney_kid_divider"
+        tools:text="$2.25" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editmoney_amount">
+
+        <TextView
+            android:id="@+id/editmoney_numpad_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_vert_divider_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="1" />
+
+        <View
+            android:id="@+id/editmoney_numpad_vert_divider_left"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/editmoney_numpad_0"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_2"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_1"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_vert_divider_right"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_vert_divider_left"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="2" />
+
+        <View
+            android:id="@+id/editmoney_numpad_vert_divider_right"
+            android:layout_width="2dp"
+            android:layout_height="0dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="@id/editmoney_numpad_0"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_3"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_2"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_vert_divider_right"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="3" />
+
+        <View
+            android:id="@+id/editmoney_numpad_horizontal_divider_top"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_2" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_vert_divider_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_horizontal_divider_top"
+            tools:text="4" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_vert_divider_right"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_vert_divider_left"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_horizontal_divider_top"
+            tools:text="5" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_vert_divider_right"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_horizontal_divider_top"
+            tools:text="6" />
+
+        <View
+            android:id="@+id/editmoney_numpad_horizontal_divider_middle"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_5" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_vert_divider_left"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_horizontal_divider_middle"
+            tools:text="7" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_vert_divider_right"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_vert_divider_left"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_horizontal_divider_middle"
+            tools:text="8" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_vert_divider_right"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_horizontal_divider_middle"
+            tools:text="9" />
+
+        <View
+            android:id="@+id/editmoney_numpad_horizontal_divider_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_8" />
+
+        <TextView
+            android:id="@+id/editmoney_numpad_0"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textColor="?android:attr/textColorSecondary"
+            android:textSize="36sp"
+            app:layout_constraintEnd_toStartOf="@id/editmoney_numpad_vert_divider_right"
+            app:layout_constraintStart_toEndOf="@id/editmoney_numpad_vert_divider_left"
+            app:layout_constraintTop_toBottomOf="@id/editmoney_numpad_horizontal_divider_bottom"
+            tools:text="0" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/edit_money_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:hint="Description"
+        app:hintEnabled="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
