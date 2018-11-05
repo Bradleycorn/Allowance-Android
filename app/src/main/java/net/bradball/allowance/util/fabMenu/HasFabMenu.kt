@@ -4,22 +4,19 @@ import net.bradball.allowance.R
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
-import android.content.res.ColorStateList
-import android.content.res.Resources
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.view.Window
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.android.support.DaggerAppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
 import net.bradball.allowance.util.fabMenu.patterns.VerticalCoordinatorPattern
 import net.bradball.allowance.util.dpToPx
 
@@ -39,6 +36,7 @@ abstract class FabActivity: DaggerAppCompatActivity() {
     private var fabMenuContainer: ViewGroup? = null
     private val fabMenuItems: MutableList<FabMenuItem> = mutableListOf()
     protected var fabMenuPattern = VerticalCoordinatorPattern()
+    private var fabMenuOverlay: View? = null
 
     protected fun setFabMenuAnchor(view: FloatingActionButton) {
         fabMenuAnchor = view
@@ -54,6 +52,22 @@ abstract class FabActivity: DaggerAppCompatActivity() {
     protected fun setFabMenuContainer(viewGroup: ViewGroup) {
         fabMenuContainer = viewGroup
         //TODO = If we change the menu container, we should probably clear out any existing menu
+    }
+
+    protected fun setFabMenuOverlay(view: View?) {
+        if (fabMenuOverlay != null) {
+            fabMenuOverlay!!.setOnClickListener(null)
+        }
+
+        fabMenuOverlay = view
+
+        if (fabMenuOverlay != null) {
+            fabMenuOverlay!!.setOnClickListener {
+                if (it.visibility == View.VISIBLE) {
+                    closeMenu()
+                }
+            }
+        }
     }
 
     fun onCreateFabMenu(menu: Menu): Boolean {
@@ -79,6 +93,7 @@ abstract class FabActivity: DaggerAppCompatActivity() {
                 it.miniFab.visibility = View.VISIBLE
                 animBuilder.with(it.openingAnimation)
             }
+            showFabOverlay()
             anim.start()
             isFabMenuOpen = true
         }
@@ -98,6 +113,7 @@ abstract class FabActivity: DaggerAppCompatActivity() {
                     fabMenuItems.forEach { fabMenuContainer?.removeView(it.miniFab) }
                 }
             })
+            hideFabOverlay()
             anim.start()
         }
         isFabMenuOpen = false
@@ -203,17 +219,48 @@ abstract class FabActivity: DaggerAppCompatActivity() {
         newButton.setImageDrawable(menuItem.icon)
 
         newButton.setOnClickListener {
-            onOptionsItemSelected(menuItem)
-//                if (fragment == null) {
-//                    activity.onOptionsItemSelected(menuItem)
-//                } else {
-//                    fragment?.onOptionsItemSelected(menuItem)
-//                }
+
+            onMenuItemSelected(Window.FEATURE_OPTIONS_PANEL, menuItem)
+            closeMenu()
         }
         layout.addView(newButton)
 
         return layout
     }
+
+    /**
+     * Hide fab overlay with animation
+     */
+    private fun hideFabOverlay() {
+        if (fabMenuOverlay != null) {
+            fabMenuOverlay!!.animate().alpha(0.0f).withLayer().setDuration(300).setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    super.onAnimationStart(animation)
+                    fabMenuOverlay?.visibility = View.VISIBLE
+                }
+
+                override fun onAnimationEnd(animation: Animator) {
+                    super.onAnimationEnd(animation)
+                    fabMenuOverlay?.visibility = View.GONE
+                }
+            }).start()
+        }
+    }
+
+    /**
+     * Show fab overlay with animation
+     */
+    private fun showFabOverlay() {
+        if (fabMenuOverlay != null) {
+            fabMenuOverlay!!.animate().alpha(1.0f).withLayer().setDuration(300).setListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationStart(animation: Animator) {
+                    super.onAnimationStart(animation)
+                    fabMenuOverlay!!.visibility = View.VISIBLE
+                }
+            }).start()
+        }
+    }
+
 
 
 }

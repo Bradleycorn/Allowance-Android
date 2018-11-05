@@ -25,6 +25,7 @@ class MainActivity : FabActivity(), KidListFragment.OnFragmentInteractionListene
         setupNavigation()
 
         setFabMenuAnchor(fab)
+        setFabMenuOverlay(fab_menu_overlay)
     }
 
     override fun onSupportNavigateUp() = findNavController(this, R.id.fragment_nav_host).navigateUp()
