@@ -4,12 +4,12 @@
 
     <item
         android:id="@+id/fab_add_kid"
-        android:title="Add Kid"
+        android:title="@string/fab_menu_add_kid"
         android:icon="@drawable/ic_add_kid" />
 
     <item
-        android:id="@+id/fab_Add_money"
-        android:title="Add Money"
+        android:id="@+id/fab_add_money"
+        android:title="@string/fab_menu_add_money"
         android:icon="@drawable/ic_add_money"/>
 
 </menu>

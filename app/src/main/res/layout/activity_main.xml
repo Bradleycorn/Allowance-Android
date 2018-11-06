@@ -17,18 +17,19 @@
         android:id="@+id/bottom_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/Widget.MaterialComponents.BottomAppBar"
+        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_gravity="bottom"
-        app:backgroundTint="@color/colorPrimary"
         app:navigationIcon="@drawable/ic_menu_white"
         app:fabAlignmentMode="end"
         app:fabCradleMargin="6dp"
         app:fabCradleRoundedCornerRadius="0dp"
+        android:theme="@style/BottomAppBarTheme"
        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:src="@drawable/ic_add_white_24dp"
+        android:tint="@color/secondaryTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottom_app_bar" />

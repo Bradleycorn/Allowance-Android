@@ -14,7 +14,7 @@
         android:layout_height="125dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/primaryColor"
         android:contentDescription="Add a new image"
         android:src="@drawable/ic_add_photo"
         app:layout_constraintStart_toStartOf="parent"

@@ -23,7 +23,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:textAlignment="viewEnd"
-        android:textColor="@color/colorDebit"
         android:textSize="18sp"
         app:layout_constraintEnd_toStartOf="@id/ledger_item_credit"
         app:layout_constraintStart_toEndOf="@+id/ledger_item_description"

@@ -15,11 +15,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
-import androidx.navigation.NavHost
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 
@@ -115,7 +112,7 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
                 NavHostFragment.findNavController(this).navigate(R.id.action_kidListFragment_to_editKidFragment)
                 true
             }
-            R.id.fab_Add_money -> {
+            R.id.fab_add_money -> {
                 Toast.makeText(requireContext(), "Add Money Clicked", Toast.LENGTH_SHORT).show()
                 true
             }

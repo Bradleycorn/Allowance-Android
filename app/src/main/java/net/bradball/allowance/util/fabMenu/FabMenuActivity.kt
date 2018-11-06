@@ -3,6 +3,7 @@ package net.bradball.allowance.util.fabMenu
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
+import android.os.Build
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -185,31 +186,33 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
         val layout = LinearLayout(this)
         layout.orientation = LinearLayout.HORIZONTAL
         layout.setVerticalGravity(Gravity.CENTER_VERTICAL)
+        val layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+        layout.layoutParams = layoutParams
 
-        val chip = Chip(this, null, R.style.Widget_MaterialComponents_Chip_Action)
-        val chipLayout = ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        chipLayout.height = 20.dpToPx().toInt()
-        chip.layoutParams = chipLayout
-        chip.isCheckable = false
-        chip.chipCornerRadius = 2.dpToPx()
-        chip.text = menuItem.title
-        chip.setTextColor(getColor(android.R.color.black))
-        chip.textEndPadding = 0F
-        chip.textStartPadding = 0F
+        if (!menuItem.title.isNullOrEmpty()) {
+            val chip = Chip(this, null, R.style.Widget_MaterialComponents_Chip_Action)
+            val chipLayout = LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+            chipLayout.height = 20.dpToPx().toInt()
+            chipLayout.marginEnd = 16.dpToPx().toInt()
+            chip.layoutParams = chipLayout
+            chip.isCheckable = false
+            chip.chipCornerRadius = 2.dpToPx()
+            chip.text = menuItem.title
+            chip.textEndPadding = 0F
+            chip.textStartPadding = 0F
 
+            layout.addView(chip)
+        }
 
-        layout.addView(chip)
 
         val newButton = FloatingActionButton(this)
-
-        val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
-        params.marginStart = 16.dpToPx().toInt()
-        newButton.layoutParams = params
-
-
         newButton.id = menuItem.itemId
         newButton.size = FloatingActionButton.SIZE_MINI
         newButton.setImageDrawable(menuItem.icon)
+
+        if (Build.VERSION.SDK_INT >= 26 && menuItem.iconTintList != null) {
+            newButton.imageTintList = menuItem.iconTintList
+        }
 
         newButton.setOnClickListener {
 

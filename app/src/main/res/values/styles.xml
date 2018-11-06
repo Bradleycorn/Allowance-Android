@@ -1,11 +1,31 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!--
+            Main Color Scheme.
+            If you change these colors, you should probably
+            change the colors in BottomAppBarTheme as well.
+        -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="colorError">@color/errorColor</item>
+    </style>
+
+    <!--
+        Theme specifically for the Bottom App Bar
+        While the main app uses a light theme, we want the bottom app bar to use
+        a dark theme, so that it will use light (white) colors on it's text and icons
+    -->
+    <style name="BottomAppBarTheme" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="colorError">@color/errorColor</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
