@@ -3,7 +3,9 @@ package net.bradball.allowance.util.fabMenu
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
+import android.content.Context
 import android.os.Build
+import android.os.Bundle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -13,6 +15,7 @@ import android.view.Window
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.chip.Chip
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import dagger.android.support.DaggerAppCompatActivity
@@ -113,12 +116,34 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
         isFabMenuOpen = false
     }
 
+    private val cb = object: FragmentManager.FragmentLifecycleCallbacks() {
+        override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+            if (f is IHasFabMenu) {
+                invalidateFabMenu()
+            }
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
+        }
+
+        override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
+            if (f is IHasFabMenu) {
+                invalidateFabMenu()
+            }
+            super.onFragmentViewDestroyed(fm, f)
+        }
+
+    }
+
     private fun validateAndCreateFabMenu(): Boolean {
         var show = (fabMenu != null && fabMenuIsValid)
         if (fabMenu == null || !fabMenuIsValid) {
             show = dispatchCreateFabMenu()
             val fragmentList = this.supportFragmentManager.fragments
-            show = show.or(dispatchFragmentCreateFabMenu(fragmentList, fabMenu!!))
+            val showFragments = dispatchFragmentCreateFabMenu(fragmentList, fabMenu!!)
+            if (showFragments) {
+                supportFragmentManager.unregisterFragmentLifecycleCallbacks(cb)
+                supportFragmentManager.registerFragmentLifecycleCallbacks(cb, true)
+            }
+            show = show.or(showFragments)
         }
         return show
     }
@@ -146,7 +171,9 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
 
     private fun handleFragmentFabMenu(fragment: Fragment, menu: Menu): Boolean {
         val show = when (fragment) {
-            is IHasFabMenu -> fragment.onCreateFabMenu(menu, menuInflater)
+            is IHasFabMenu -> {
+                fragment.onCreateFabMenu(menu, menuInflater)
+            }
             else -> false
         }
         return show.or(dispatchFragmentCreateFabMenu(fragment.childFragmentManager.fragments, menu))

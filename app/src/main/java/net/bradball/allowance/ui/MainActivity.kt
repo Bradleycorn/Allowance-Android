@@ -1,6 +1,7 @@
 package net.bradball.allowance.ui
 
 import android.os.Bundle
+import android.view.View
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
@@ -25,6 +26,10 @@ class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionLis
 
         setFabMenuAnchor(fab)
         setFabMenuOverlay(fab_menu_overlay)
+    }
+
+    fun hideFabMenu() {
+        fab.hide()
     }
 
     override fun onSupportNavigateUp() = findNavController(this, R.id.fragment_nav_host).navigateUp()
