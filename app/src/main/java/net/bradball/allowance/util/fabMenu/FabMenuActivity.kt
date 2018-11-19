@@ -3,7 +3,6 @@ package net.bradball.allowance.util.fabMenu
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.AnimatorSet
-import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.Gravity
@@ -116,7 +115,7 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
         isFabMenuOpen = false
     }
 
-    private val cb = object: FragmentManager.FragmentLifecycleCallbacks() {
+    private val fragmentCallbacks = object: FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
             if (f is IHasFabMenu) {
                 invalidateFabMenu()
@@ -140,8 +139,8 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
             val fragmentList = this.supportFragmentManager.fragments
             val showFragments = dispatchFragmentCreateFabMenu(fragmentList, fabMenu!!)
             if (showFragments) {
-                supportFragmentManager.unregisterFragmentLifecycleCallbacks(cb)
-                supportFragmentManager.registerFragmentLifecycleCallbacks(cb, true)
+                supportFragmentManager.unregisterFragmentLifecycleCallbacks(fragmentCallbacks)
+                supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
             }
             show = show.or(showFragments)
         }

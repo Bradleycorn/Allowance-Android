@@ -1,16 +1,18 @@
 package net.bradball.allowance.ui.EditKid
 
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import kotlinx.android.synthetic.main.fragment_edit_kid.view.*
 
 import net.bradball.allowance.R
 import net.bradball.allowance.ui.AllowanceFragment
-import net.bradball.allowance.ui.MainActivity
+import net.bradball.allowance.util.BottomSheetDatePicker
+import java.util.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -43,13 +45,18 @@ class EditKidFragment : AllowanceFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_edit_kid, container, false)
-    }
+        val view = inflater.inflate(R.layout.fragment_edit_kid, container, false)
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+        val birthDate = view.edit_kid_birthdate
+        birthDate.setOnClickListener {
+            val picker = BottomSheetDatePicker.newInstance(GregorianCalendar(1977, 9-1, 23).time)
+            picker.setOnCloseListener { selectedDate ->
+                Toast.makeText(context, "$selectedDate", Toast.LENGTH_SHORT).show()
+            }
+            picker.show(childFragmentManager, "EditKidFragment")
+        }
 
-        (activity as MainActivity).hideFabMenu()
+        return view
     }
 
 
