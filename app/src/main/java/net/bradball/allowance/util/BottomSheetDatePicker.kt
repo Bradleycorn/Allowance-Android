@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CalendarView
+import android.widget.DatePicker
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.dialog_bottom_date_picker.view.*
 import net.bradball.allowance.R
-import java.time.LocalDate
 import java.util.*
 
 class BottomSheetDatePicker: BottomSheetDialogFragment() {
@@ -33,7 +32,7 @@ class BottomSheetDatePicker: BottomSheetDialogFragment() {
         }
     }
 
-    private lateinit var calendarView: CalendarView
+    private lateinit var calendarView: DatePicker
     private lateinit var button: MaterialButton
     private var dismissHandler: ((Date) -> Unit)? = null
     private lateinit var selectedDate: Date
@@ -41,17 +40,24 @@ class BottomSheetDatePicker: BottomSheetDialogFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_bottom_date_picker, container, false)
 
-        calendarView = view.bottom_date_picker
-        calendarView.setDate(arguments?.getLong(KEY_DATE) ?: DEFAULT_TIMESTAMP, true, true)
-        selectedDate = Date(calendarView.date)
-        calendarView.setOnDateChangeListener { view, year, month, dayOfMonth ->
-            selectedDate = GregorianCalendar(year, month, dayOfMonth).time
-        }
-
         button = view.bottom_date_picker_toolbar.bottom_date_picker_close
         button.setOnClickListener { dismiss() }
 
+        val calendar = getBirthDay()
+        calendarView = view.bottom_date_picker
+        calendarView.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+        calendarView.setOnDateChangedListener { _, year, month, day ->
+            selectedDate = GregorianCalendar(year, month, day).time
+        }
+
         return view
+    }
+
+    private fun getBirthDay(): GregorianCalendar {
+        val birthDate = Date(arguments?.getLong(KEY_DATE) ?: DEFAULT_TIMESTAMP)
+        val calendar = GregorianCalendar()
+        calendar.time = birthDate
+        return calendar
     }
 
     fun setOnCloseListener(onClose: ((Date) -> Unit)?) {

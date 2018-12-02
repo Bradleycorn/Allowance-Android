@@ -12,6 +12,37 @@
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
         <item name="colorError">@color/errorColor</item>
+
+        <item name="toolbarStyle">@style/AllowanceTheme.Toolbar</item>
+        <item name="actionBarStyle">@style/AllowanceTheme.Toolbar.ActionBar</item>
+        <item name="android:textViewStyle">@style/AllowanceTheme.TextView</item>
+        <item name="android:textColorPrimary">@android:color/holo_blue_bright</item>
+
+    </style>
+
+    <style name="AllowanceTheme.TextView" parent="@style/Widget.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
+    </style>
+
+    <style name="AllowanceTheme.Toolbar" parent="@style/Widget.MaterialComponents.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="titleTextColor">?android:attr/textColorPrimaryInverse</item>
+        <item name="subtitleTextColor">?android:attr/textColorSecondaryInverse</item>
+    </style>
+
+    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents">
+        <item name="colorControlNormal">?android:attr/textColorPrimaryInverse</item>
+    </style>
+
+    <style name="AllowanceTheme.Toolbar.ActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="titleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse</item>
+        <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle.Inverse</item>
+    </style>
+
+
+    <style name="TestThemeOverlay" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
+        <item name="colorControlNormal">?android:textColorPrimaryInverse</item>
+        <item name="android:colorControlNormal">#ffffff</item>
     </style>
 
     <!--

@@ -7,13 +7,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/test_toolbar"
+        android:layout_width="match_parent"
+        android:theme="@style/ToolbarTheme"
+        android:layout_height="56dp">
+        <TextView
+            android:id="@+id/toolbar_text"
+            android:text="TextView"
+            android:layout_width="200dp"
+            android:layout_height="50dp" />
+    </androidx.appcompat.widget.Toolbar>
+
+
     <fragment
+        android:layout_marginTop="56dp"
         android:id="@+id/fragment_nav_host"
         android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:defaultNavHost="true"
         app:navGraph="@navigation/primary_graph" />
+
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"
@@ -25,7 +40,7 @@
         app:fabAlignmentMode="end"
         app:fabCradleMargin="6dp"
         app:fabCradleRoundedCornerRadius="0dp"
-        android:theme="@style/BottomAppBarTheme"
+        android:theme="@style/TestThemeOverlay"
        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -3,6 +3,7 @@ package net.bradball.allowance.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavHost
@@ -20,6 +21,7 @@ import net.bradball.allowance.util.fabMenu.IHasFabMenu
 class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionListener, LedgerFragment.onLedgerInteraction {
 
     private lateinit var bottomAppBar: BottomAppBar
+    private lateinit var toolbar: Toolbar
 
     private val fragmentCallbacks = object: FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
@@ -35,6 +37,9 @@ class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionLis
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        toolbar = test_toolbar
+                toolbar.title = "Title"
 
         bottomAppBar = bottom_app_bar
 
@@ -65,7 +70,11 @@ class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionLis
         val navController = findNavController(this, R.id.fragment_nav_host)
         //setupActionBarWithNavController(this as AppCompatActivity, navController)
 
-        setSupportActionBar(bottomAppBar)
-        bottomAppBar.setupWithNavController(navController)
+        setSupportActionBar(toolbar)
+        toolbar.setupWithNavController(navController)
+
+
+        //setSupportActionBar(bottomAppBar)
+        //bottomAppBar.setupWithNavController(navController)
     }
 }

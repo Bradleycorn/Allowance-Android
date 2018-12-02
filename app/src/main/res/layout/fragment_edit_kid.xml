@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.EditKid.EditKidFragment">
 
-
     <ImageView
         android:id="@+id/edit_kid_image"
         android:layout_width="125dp"
