@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Material Theme Colors -->
-    <color name="primaryColor">#00796B</color>
+    <color name="primaryColor">#00796b</color>
     <color name="primaryLightColor">#48a999</color>
     <color name="primaryDarkColor">#004c40</color>
-    <color name="secondaryColor">#FBC02D</color>
+    <color name="onPrimaryColor">#ffffff</color>
+
+    <color name="secondaryColor">#fbc02d</color>
     <color name="secondaryLightColor">#fff263</color>
     <color name="secondaryDarkColor">#c49000</color>
-    <color name="primaryTextColor">#FFFFFF</color>
-    <color name="secondaryTextColor">#000000</color>
+    <color name="onSecondaryColor">#000000</color>
+
+    <color name="surfaceColor">#ffffff</color>
+    <color name="onSurfaceColor">#000000</color>
+
     <color name="errorColor">#b71c1c</color>
+    <color name="onErrorColor">#ffffff</color>
 
     <color name="fab_menu_overlay">#ddaaaaaa</color>
 </resources>

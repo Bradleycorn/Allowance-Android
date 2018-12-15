@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
+import net.bradball.allowance.ui.EditKid.EditKidViewModel
 
 import net.bradball.allowance.ui.KidList.KidListViewModel
 import net.bradball.allowance.ui.Ledger.LedgerViewModel
@@ -18,6 +19,11 @@ abstract class ViewModelBuildersModule {
     @IntoMap
     @ViewModelKey(KidListViewModel::class)
     abstract fun bindKidListViewModel(kidListViewModel: KidListViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(EditKidViewModel::class)
+    abstract fun bindEditKidViewModel(editKidViewModel: EditKidViewModel): ViewModel
 
     @Binds
     @IntoMap

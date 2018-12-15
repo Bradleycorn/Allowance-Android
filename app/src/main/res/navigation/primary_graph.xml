@@ -43,6 +43,6 @@
     <fragment
         android:id="@+id/editKidFragment"
         android:name="net.bradball.allowance.ui.EditKid.EditKidFragment"
-        android:label="fragment_edit_kid"
+        android:label="Edit Kid"
         tools:layout="@layout/fragment_edit_kid" />
 </navigation>

@@ -42,7 +42,7 @@ class DatePickerFragment: androidx.fragment.app.DialogFragment() {
 
         datePicker.init(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), null)
 
-        val alertDialog = AlertDialog.Builder(activity, R.style.AppTheme_DateDialog)
+        val alertDialog = AlertDialog.Builder(activity)
                 .setView(view)
                 //.setTitle(R.string.date_picker_title)
 

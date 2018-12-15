@@ -7,12 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.fragment_edit_kid.view.*
 
 import net.bradball.allowance.R
+import net.bradball.allowance.di.ViewModelFactory
 import net.bradball.allowance.ui.AllowanceFragment
 import net.bradball.allowance.util.BottomSheetDatePicker
 import java.util.*
+import javax.inject.Inject
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -34,6 +38,12 @@ class EditKidFragment : AllowanceFragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
 
+
+    @Inject
+    protected lateinit var viewModelFactory: ViewModelFactory
+    protected lateinit var viewModel: EditKidViewModel
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -48,15 +58,35 @@ class EditKidFragment : AllowanceFragment() {
         val view = inflater.inflate(R.layout.fragment_edit_kid, container, false)
 
         val birthDate = view.edit_kid_birthdate
-        birthDate.setOnClickListener {
-            val picker = BottomSheetDatePicker.newInstance(GregorianCalendar(1977, 9-1, 23).time)
-            picker.setOnCloseListener { selectedDate ->
-                Toast.makeText(context, "$selectedDate", Toast.LENGTH_SHORT).show()
+        birthDate.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                showDatePicker()
             }
-            picker.show(childFragmentManager, "EditKidFragment")
+        }
+        birthDate.setOnClickListener {
+            showDatePicker()
         }
 
+
         return view
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(EditKidViewModel::class.java)
+
+        viewModel.birthDateObservable.observe(viewLifecycleOwner, Observer { selectedDate ->
+
+        })
+    }
+
+    private fun showDatePicker() {
+        val picker = BottomSheetDatePicker.newInstance(GregorianCalendar().time)
+        picker.setOnCloseListener { selectedDate ->
+            viewModel.setBirthDate(selectedDate)
+        }
+        picker.show(childFragmentManager, "EditKidFragment")
     }
 
 

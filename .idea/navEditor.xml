@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="518" />
-                            <option name="y" value="12" />
+                            <option name="x" value="138" />
+                            <option name="y" value="-336" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,8 +25,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-204" />
-                            <option name="y" value="187" />
+                            <option name="x" value="-207" />
+                            <option name="y" value="150" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -43,6 +43,11 @@
                         </option>
                         <option name="myPositions">
                           <map>
+                            <entry key="action_kidListFragment_to_editKidFragment">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
                             <entry key="action_showLedger">
                               <value>
                                 <LayoutPositions />
@@ -58,8 +63,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="265" />
-                            <option name="y" value="12" />
+                            <option name="x" value="-135" />
+                            <option name="y" value="-335" />
                           </Point>
                         </option>
                         <option name="myPositions">

@@ -1,13 +1,14 @@
 package net.bradball.allowance.ui
 
-import android.content.Context
 import android.os.Bundle
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.navigation.NavHost
 import androidx.navigation.Navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomappbar.BottomAppBar
 import kotlinx.android.synthetic.main.activity_main.*
@@ -18,7 +19,7 @@ import net.bradball.allowance.util.fabMenu.FabMenuActivity
 import net.bradball.allowance.util.fabMenu.IHasFabMenu
 
 
-class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionListener, LedgerFragment.onLedgerInteraction {
+class MainActivity : FabMenuActivity() {
 
     private lateinit var bottomAppBar: BottomAppBar
     private lateinit var toolbar: Toolbar
@@ -38,8 +39,8 @@ class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        toolbar = test_toolbar
-                toolbar.title = "Title"
+        toolbar = app_toolbar
+        toolbar.title = "Title"
 
         bottomAppBar = bottom_app_bar
 
@@ -49,7 +50,6 @@ class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionLis
         setFabMenuOverlay(fab_menu_overlay)
 
         supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
-
     }
 
     fun showFabMenu() {
@@ -60,21 +60,11 @@ class MainActivity : FabMenuActivity(), KidListFragment.OnFragmentInteractionLis
         fab.hide()
     }
 
-    override fun onSupportNavigateUp() = findNavController(this, R.id.fragment_nav_host).navigateUp()
-
-    override fun onFragmentInteraction() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     private fun setupNavigation() {
         val navController = findNavController(this, R.id.fragment_nav_host)
-        //setupActionBarWithNavController(this as AppCompatActivity, navController)
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
 
         setSupportActionBar(toolbar)
-        toolbar.setupWithNavController(navController)
-
-
-        //setSupportActionBar(bottomAppBar)
-        //bottomAppBar.setupWithNavController(navController)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
     }
 }

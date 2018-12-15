@@ -7,17 +7,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/test_toolbar"
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:theme="@style/ToolbarTheme"
-        android:layout_height="56dp">
-        <TextView
-            android:id="@+id/toolbar_text"
-            android:text="TextView"
-            android:layout_width="200dp"
-            android:layout_height="50dp" />
-    </androidx.appcompat.widget.Toolbar>
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/app_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
 
     <fragment
@@ -36,17 +37,15 @@
         android:layout_height="wrap_content"
         style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
         android:layout_gravity="bottom"
-        app:navigationIcon="@drawable/ic_menu_white"
+        app:navigationIcon="@drawable/ic_menu"
         app:fabAlignmentMode="end"
         app:fabCradleMargin="6dp"
         app:fabCradleRoundedCornerRadius="0dp"
-        android:theme="@style/TestThemeOverlay"
        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
         android:src="@drawable/ic_add_white_24dp"
-        android:tint="@color/secondaryTextColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_anchor="@id/bottom_app_bar" />

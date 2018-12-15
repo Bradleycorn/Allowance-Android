@@ -44,6 +44,7 @@ class BottomSheetDatePicker: BottomSheetDialogFragment() {
         button.setOnClickListener { dismiss() }
 
         val calendar = getBirthDay()
+        selectedDate = calendar.time
         calendarView = view.bottom_date_picker
         calendarView.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
         calendarView.setOnDateChangedListener { _, year, month, day ->

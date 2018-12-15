@@ -4,8 +4,6 @@
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <!--
             Main Color Scheme.
-            If you change these colors, you should probably
-            change the colors in BottomAppBarTheme as well.
         -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
@@ -13,58 +11,25 @@
         <item name="colorAccent">@color/secondaryColor</item>
         <item name="colorError">@color/errorColor</item>
 
-        <item name="toolbarStyle">@style/AllowanceTheme.Toolbar</item>
-        <item name="actionBarStyle">@style/AllowanceTheme.Toolbar.ActionBar</item>
-        <item name="android:textViewStyle">@style/AllowanceTheme.TextView</item>
-        <item name="android:textColorPrimary">@android:color/holo_blue_bright</item>
+        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
 
     </style>
 
-    <style name="AllowanceTheme.TextView" parent="@style/Widget.TextView">
+    <style name="AppTheme.TextView" parent="android:Widget.Material.Light.TextView">
         <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
     </style>
 
-    <style name="AllowanceTheme.Toolbar" parent="@style/Widget.MaterialComponents.Toolbar">
+    <style name="AppTheme.Toolbar.Colored" parent="AppTheme">
         <item name="android:background">?attr/colorPrimary</item>
-        <item name="titleTextColor">?android:attr/textColorPrimaryInverse</item>
-        <item name="subtitleTextColor">?android:attr/textColorSecondaryInverse</item>
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+        <item name="popupTheme">@style/AppTheme</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
     </style>
 
-    <style name="ToolbarTheme" parent="ThemeOverlay.MaterialComponents">
-        <item name="colorControlNormal">?android:attr/textColorPrimaryInverse</item>
+    <style name="AppTheme.Button.Accent" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="colorOnPrimary">@color/onSecondaryColor</item>
     </style>
-
-    <style name="AllowanceTheme.Toolbar.ActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
-        <item name="titleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Title.Inverse</item>
-        <item name="subtitleTextStyle">@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle.Inverse</item>
-    </style>
-
-
-    <style name="TestThemeOverlay" parent="@android:style/ThemeOverlay.Material.Dark.ActionBar">
-        <item name="colorControlNormal">?android:textColorPrimaryInverse</item>
-        <item name="android:colorControlNormal">#ffffff</item>
-    </style>
-
-    <!--
-        Theme specifically for the Bottom App Bar
-        While the main app uses a light theme, we want the bottom app bar to use
-        a dark theme, so that it will use light (white) colors on it's text and icons
-    -->
-    <style name="BottomAppBarTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryColor</item>
-        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
-        <item name="colorSecondary">@color/secondaryColor</item>
-        <item name="colorAccent">@color/secondaryColor</item>
-        <item name="colorError">@color/errorColor</item>
-    </style>
-
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <style name="AppTheme.DateDialog" parent="Theme.MaterialComponents.Dialog" />
-
 
 </resources>
