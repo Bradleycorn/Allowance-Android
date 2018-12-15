@@ -34,4 +34,8 @@ class FirebaseDataStore @Inject constructor(): IDataStore {
             it.toObject(Kid::class.java)
         }
     }
+
+    fun addKid(kid: Kid) {
+
+    }
 }

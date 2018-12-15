@@ -2,10 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <item android:title="Add Kid"
+    <item
+        android:id="@+id/fab_add_kid"
+        android:title="@string/fab_menu_add_kid"
         android:icon="@drawable/ic_add_kid" />
 
-    <item android:title="Add Money"
+    <item
+        android:id="@+id/fab_add_money"
+        android:title="@string/fab_menu_add_money"
         android:icon="@drawable/ic_add_money"/>
 
 </menu>

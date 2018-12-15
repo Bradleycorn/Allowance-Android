@@ -13,6 +13,11 @@
         <action
             android:id="@+id/action_showLedger"
             app:destination="@id/ledgerFragment" />
+        <action
+            android:id="@+id/action_kidListFragment_to_editKidFragment"
+            app:destination="@id/editKidFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/ledgerFragment"
@@ -35,4 +40,9 @@
         <argument
             android:name="kidId"/>
     </fragment>
+    <fragment
+        android:id="@+id/editKidFragment"
+        android:name="net.bradball.allowance.ui.EditKid.EditKidFragment"
+        android:label="Edit Kid"
+        tools:layout="@layout/fragment_edit_kid" />
 </navigation>

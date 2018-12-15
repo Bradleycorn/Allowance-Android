@@ -10,10 +10,13 @@ import androidx.recyclerview.widget.DiffUtil
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import kotlinx.android.synthetic.main.fragment_kid_list.view.*
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 
@@ -28,9 +31,7 @@ import javax.inject.Inject
 
 /**
  * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [KidListFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
+ *
  * Use the [KidListFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
@@ -59,7 +60,6 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
         }
     }
 
-    private var listener: OnFragmentInteractionListener? = null
     private val listAdapter = KidListAdapter()
 
     @Inject
@@ -77,23 +77,9 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(KidListViewModel::class.java)
         viewModel.getKidList().observe(this, Observer<List<Kid>> { list -> listAdapter.submitList(list) })
 
+        setHasOptionsMenu(true)
+
         return view
-    }
-
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
     }
 
     override fun onCreateFabMenu(menu: Menu, menuInflater: MenuInflater): Boolean {
@@ -101,20 +87,18 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
         return true
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction()
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        return when (item?.itemId) {
+            R.id.fab_add_kid -> {
+                NavHostFragment.findNavController(this).navigate(R.id.action_kidListFragment_to_editKidFragment)
+                true
+            }
+            R.id.fab_add_money -> {
+                Toast.makeText(requireContext(), "Add Money Clicked", Toast.LENGTH_SHORT).show()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
 

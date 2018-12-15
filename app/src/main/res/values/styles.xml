@@ -1,19 +1,35 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <!--
+            Main Color Scheme.
+        -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorSecondary">@color/secondaryColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+        <item name="colorError">@color/errorColor</item>
+
+        <item name="android:textViewStyle">@style/AppTheme.TextView</item>
+
     </style>
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
+    <style name="AppTheme.TextView" parent="android:Widget.Material.Light.TextView">
+        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Body1</item>
     </style>
 
-    <style name="AppTheme.DateDialog" parent="Theme.MaterialComponents.Dialog" />
+    <style name="AppTheme.Toolbar.Colored" parent="AppTheme">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="colorControlNormal">?attr/colorOnPrimary</item>
+        <item name="android:textColorPrimary">?attr/colorOnPrimary</item>
+        <item name="popupTheme">@style/AppTheme</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialComponents.Button.TextButton</item>
+    </style>
 
+    <style name="AppTheme.Button.Accent" parent="ThemeOverlay.MaterialComponents.Light">
+        <item name="colorPrimary">?attr/colorAccent</item>
+        <item name="colorOnPrimary">@color/onSecondaryColor</item>
+    </style>
 
 </resources>

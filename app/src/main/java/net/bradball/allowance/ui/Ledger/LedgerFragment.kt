@@ -29,9 +29,7 @@ private const val ARG_KID_NAME = "kidName"
 
 /**
  * A simple [Fragment] subclass.
- * Activities that contain this fragment must implement the
- * [LedgerFragment.onLedgerInteraction] interface
- * to handle interaction events.
+ *
  * Use the [LedgerFragment.newInstance] factory method to
  * create an instance of this fragment.
  *
@@ -42,7 +40,6 @@ class LedgerFragment : AllowanceFragment() {
     protected lateinit var viewModelFactory: ViewModelFactory
 
     private var kidId: String = ""
-    private var listener: onLedgerInteraction? = null
 
     private lateinit var viewModel: LedgerViewModel
     private val ledger: ArrayList<LedgerEntry> = ArrayList()
@@ -64,8 +61,6 @@ class LedgerFragment : AllowanceFragment() {
         }
 
     }
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,45 +93,6 @@ class LedgerFragment : AllowanceFragment() {
         view.ledger_list.adapter = listAdapter
 
         return view
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    fun onButtonPressed(uri: Uri) {
-        listener?.onFragmentInteraction()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is onLedgerInteraction) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement onLedgerInteraction")
-        }
-
-        //activity?.actionBar?.setDisplayHomeAsUpEnabled(true)
-
-
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        listener = null
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     *
-     *
-     * See the Android Training lesson [Communicating with Other Fragments]
-     * (http://developer.android.com/training/basics/fragments/communicating.html)
-     * for more information.
-     */
-    interface onLedgerInteraction {
-        // TODO: Update argument type and name
-        fun onFragmentInteraction()
     }
 
     private inner class LedgerAdapter internal constructor(private val ledger: ArrayList<LedgerEntry>): androidx.recyclerview.widget.RecyclerView.Adapter<LedgerAdapter.ViewHolder>() {
