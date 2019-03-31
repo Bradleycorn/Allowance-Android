@@ -49,14 +49,14 @@ class EditMoneyFragment : AllowanceFragment() {
         return view
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        when (requestCode) {
-            DATE_REQUEST -> {
-                val selectedDate: Date = data.getSerializableExtra(DatePickerFragment.EXTRA_DATE) as Date
-                //dateEditText.setText(selectedDate.toString())
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+//        when (requestCode) {
+//            DATE_REQUEST -> {
+//                val selectedDate: Date = data.getSerializableExtra(DatePickerFragment.EXTRA_DATE) as Date
+//                //dateEditText.setText(selectedDate.toString())
+//            }
+//        }
+//    }
 
     companion object {
         /**

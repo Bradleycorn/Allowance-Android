@@ -10,20 +10,18 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.button.MaterialButton
 import kotlinx.android.synthetic.main.dialog_bottom_date_picker.view.*
 import net.bradball.allowance.R
+import java.time.LocalDate
 import java.util.*
 
 class BottomSheetDatePicker: BottomSheetDialogFragment() {
 
     companion object {
         private const val KEY_DATE = "date"
-        private val DEFAULT_TIMESTAMP: Long by lazy {
-            Date().time
-        }
 
-        fun newInstance(initialDate: Date? = null, onClose: ((selectedDate: Date) -> Unit)? = null): BottomSheetDatePicker {
+        fun newInstance(initialDate: LocalDate = LocalDate.now(), onClose: ((selectedDate: LocalDate) -> Unit)? = null): BottomSheetDatePicker {
             val picker = BottomSheetDatePicker()
             val args = Bundle()
-            args.putLong(KEY_DATE, initialDate?.time ?: DEFAULT_TIMESTAMP)
+            args.putString(KEY_DATE, initialDate.format(DATE_FORMAT.SHORT))
 
             picker.arguments = args
             picker.setOnCloseListener(onClose)
@@ -34,8 +32,8 @@ class BottomSheetDatePicker: BottomSheetDialogFragment() {
 
     private lateinit var calendarView: DatePicker
     private lateinit var button: MaterialButton
-    private var dismissHandler: ((Date) -> Unit)? = null
-    private lateinit var selectedDate: Date
+    private var dismissHandler: ((LocalDate) -> Unit)? = null
+    private lateinit var selectedDate: LocalDate
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.dialog_bottom_date_picker, container, false)
@@ -43,29 +41,26 @@ class BottomSheetDatePicker: BottomSheetDialogFragment() {
         button = view.bottom_date_picker_toolbar.bottom_date_picker_close
         button.setOnClickListener { dismiss() }
 
-        val calendar = getBirthDay()
-        selectedDate = calendar.time
+        selectedDate = getBirthDay()
         calendarView = view.bottom_date_picker
-        calendarView.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))
+        calendarView.maxDate = Date().time
+        calendarView.updateDate(selectedDate.year, selectedDate.monthValue - 1, selectedDate.dayOfMonth)
         calendarView.setOnDateChangedListener { _, year, month, day ->
-            selectedDate = GregorianCalendar(year, month, day).time
+            selectedDate = LocalDate.of(year, month + 1, day)
         }
 
         return view
     }
 
-    private fun getBirthDay(): GregorianCalendar {
-        val birthDate = Date(arguments?.getLong(KEY_DATE) ?: DEFAULT_TIMESTAMP)
-        val calendar = GregorianCalendar()
-        calendar.time = birthDate
-        return calendar
+    private fun getBirthDay(): LocalDate {
+        return arguments?.getString(KEY_DATE)?.parseDate(DATE_FORMAT.SHORT) ?: LocalDate.now()
     }
 
-    fun setOnCloseListener(onClose: ((Date) -> Unit)?) {
+    fun setOnCloseListener(onClose: ((LocalDate) -> Unit)?) {
         dismissHandler = onClose
     }
 
-    override fun onDismiss(dialog: DialogInterface?) {
+    override fun onDismiss(dialog: DialogInterface) {
         super.onDismiss(dialog)
         dismissHandler?.invoke(selectedDate)
     }

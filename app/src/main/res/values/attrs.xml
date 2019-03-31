@@ -3,6 +3,7 @@
     <declare-styleable name="CurrencyEditText">
         <attr name="allow_negative_values" format="boolean" />
         <attr name="decimal_digits" format="integer" />
+        <attr name="currency_value" fromat="float" />
     </declare-styleable>
 
 </resources>

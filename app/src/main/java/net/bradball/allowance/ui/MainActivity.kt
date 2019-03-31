@@ -17,47 +17,22 @@ import net.bradball.allowance.ui.KidList.KidListFragment
 import net.bradball.allowance.ui.Ledger.LedgerFragment
 import net.bradball.allowance.util.fabMenu.FabMenuActivity
 import net.bradball.allowance.util.fabMenu.IHasFabMenu
+import net.bradball.allowance.util.lazyView
 
 
 class MainActivity : FabMenuActivity() {
 
-    private lateinit var bottomAppBar: BottomAppBar
-    private lateinit var toolbar: Toolbar
-
-    private val fragmentCallbacks = object: FragmentManager.FragmentLifecycleCallbacks() {
-        override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
-            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
-            if (f is IHasFabMenu) {
-                showFabMenu()
-            } else {
-                hideFabMenu()
-            }
-        }
-    }
+    private val bottomAppBar by lazyView<BottomAppBar>(R.id.bottom_app_bar)
+    private val toolbar by lazyView<Toolbar>(R.id.app_toolbar)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        toolbar = app_toolbar
-        toolbar.title = "Title"
-
-        bottomAppBar = bottom_app_bar
-
         setupNavigation()
 
         setFabMenuAnchor(fab)
         setFabMenuOverlay(fab_menu_overlay)
-
-        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
-    }
-
-    fun showFabMenu() {
-        fab.show()
-    }
-
-    fun hideFabMenu() {
-        fab.hide()
     }
 
     private fun setupNavigation() {

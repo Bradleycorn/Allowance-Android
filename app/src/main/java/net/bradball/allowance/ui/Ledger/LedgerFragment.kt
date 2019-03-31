@@ -36,9 +36,6 @@ private const val ARG_KID_NAME = "kidName"
  */
 class LedgerFragment : AllowanceFragment() {
 
-    @Inject
-    protected lateinit var viewModelFactory: ViewModelFactory
-
     private var kidId: String = ""
 
     private lateinit var viewModel: LedgerViewModel

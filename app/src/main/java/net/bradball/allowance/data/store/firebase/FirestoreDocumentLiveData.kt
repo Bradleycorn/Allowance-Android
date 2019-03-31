@@ -19,5 +19,6 @@ class FirestoreDocumentLiveData(private val document: DocumentReference) : LiveD
     override fun onInactive() {
         super.onInactive()
         queryListener?.remove()
+        queryListener = null
     }
 }

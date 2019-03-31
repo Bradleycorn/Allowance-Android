@@ -5,6 +5,7 @@ import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.EditText
+import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import net.bradball.allowance.R
 import net.bradball.allowance.util.empty
 
@@ -152,6 +153,7 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
         val array = context.obtainStyledAttributes(attrs, R.styleable.CurrencyEditText)
         allowNegativeValues = array.getBoolean(R.styleable.CurrencyEditText_allow_negative_values, false)
         decimalDigits = array.getInteger(R.styleable.CurrencyEditText_decimal_digits, decimalDigits)
+        currencyValue = array.getFloat(R.styleable.CurrencyEditText_currency_value, 0f).toDouble()
         array.recycle()
     }
 
@@ -165,9 +167,7 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
         val formattedText = format(value)
         setText(formattedText)
     }
-
-
-
+    
     /**
      * Sets up the CurrencyEditText view to be configured for a given locale, using that
      * locales default currency (so long as the locale is ISO-3166 compliant). If there is
@@ -208,6 +208,10 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
         return format(rawVal)
     }
 
+    fun formatCurrency(value: Double): String {
+        return format(value)
+    }
+
     /*
     PRIVATE HELPER METHODS
      */
@@ -217,12 +221,16 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
         updateHint()
     }
 
-    private fun format(`val`: Long): String {
-        return CurrencyTextFormatter.formatText(`val`.toString(), locale, defaultLocale, decimalDigits)
+    private fun format(value: Long): String {
+        return CurrencyTextFormatter.formatText(value.toString(), locale, defaultLocale, decimalDigits)
     }
 
-    private fun format(`val`: String): String {
-        return CurrencyTextFormatter.formatText(`val`, locale, defaultLocale, decimalDigits)
+    private fun format(value: String): String {
+        return CurrencyTextFormatter.formatText(value, locale, defaultLocale, decimalDigits)
+    }
+
+    private fun format(value: Double): String {
+        return CurrencyTextFormatter.formatText(Math.floor(value * 100).toString() , locale, defaultLocale, decimalDigits)
     }
 
     private fun updateHint() {

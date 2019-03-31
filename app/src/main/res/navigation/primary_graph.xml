@@ -42,7 +42,17 @@
     </fragment>
     <fragment
         android:id="@+id/editKidFragment"
-        android:name="net.bradball.allowance.ui.EditKid.EditKidFragment"
-        android:label="Edit Kid"
-        tools:layout="@layout/fragment_edit_kid" />
+        android:name="net.bradball.allowance.ui.editKid.EditKidFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_edit_kid">
+        <argument
+            android:name="kidId"
+            android:defaultValue="null"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="title"
+            android:defaultValue="Add Kid"
+            app:argType="string" />
+    </fragment>
 </navigation>

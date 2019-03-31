@@ -50,20 +50,20 @@ class LedgerItemFragment : AllowanceFragment() {
 
             val dialog = DatePickerFragment.newInstance(Date())
             dialog.setTargetFragment(this, DATE_REQUEST)
-            dialog.show(fragmentManager, DATE_DIALOG)
+            //dialog.show(fragmentManager, DATE_DIALOG)
         }
 
         return view
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
-        when (requestCode) {
-            DATE_REQUEST -> {
-                val selectedDate: Date = data.getSerializableExtra(DatePickerFragment.EXTRA_DATE) as Date
-                dateEditText.setText(selectedDate.toString())
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+//        when (requestCode) {
+//            DATE_REQUEST -> {
+//                val selectedDate: Date = data.getSerializableExtra(DatePickerFragment.EXTRA_DATE) as Date
+//                dateEditText.setText(selectedDate.toString())
+//            }
+//        }
+//    }
 
     companion object {
         /**

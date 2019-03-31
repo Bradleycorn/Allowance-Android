@@ -34,6 +34,9 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
     protected var fabMenuPattern = VerticalCoordinatorPattern()
     private var fabMenuOverlay: View? = null
 
+    protected fun showFabMenu() = fabMenuAnchor?.show()
+    protected fun hideFabMenu() = fabMenuAnchor?.hide()
+
     protected fun setFabMenuAnchor(view: FloatingActionButton) {
         fabMenuAnchor = view
         fabMenuAnchor?.setOnClickListener {
@@ -43,6 +46,8 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
         if (fabMenuContainer == null) {
             fabMenuContainer = view.parent as ViewGroup
         }
+
+        supportFragmentManager.registerFragmentLifecycleCallbacks(fragmentCallbacks, true)
     }
 
     protected fun setFabMenuContainer(viewGroup: ViewGroup) {
@@ -117,17 +122,20 @@ abstract class FabMenuActivity: DaggerAppCompatActivity() {
 
     private val fragmentCallbacks = object: FragmentManager.FragmentLifecycleCallbacks() {
         override fun onFragmentViewCreated(fm: FragmentManager, f: Fragment, v: View, savedInstanceState: Bundle?) {
+            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
             if (f is IHasFabMenu) {
                 invalidateFabMenu()
+                showFabMenu()
+            } else {
+                hideFabMenu()
             }
-            super.onFragmentViewCreated(fm, f, v, savedInstanceState)
         }
 
         override fun onFragmentViewDestroyed(fm: FragmentManager, f: Fragment) {
+            super.onFragmentViewDestroyed(fm, f)
             if (f is IHasFabMenu) {
                 invalidateFabMenu()
             }
-            super.onFragmentViewDestroyed(fm, f)
         }
 
     }

@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import dagger.Binds
 import dagger.Module
 import dagger.multibindings.IntoMap
-import net.bradball.allowance.ui.EditKid.EditKidViewModel
+import net.bradball.allowance.ui.editKid.EditKidViewModel
 
 import net.bradball.allowance.ui.KidList.KidListViewModel
 import net.bradball.allowance.ui.Ledger.LedgerViewModel
