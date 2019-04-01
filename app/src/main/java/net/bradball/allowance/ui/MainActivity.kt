@@ -39,7 +39,7 @@ class MainActivity : FabMenuActivity() {
         val navController = findNavController(this, R.id.fragment_nav_host)
         val appBarConfiguration = AppBarConfiguration(navController.graph)
 
-        setSupportActionBar(toolbar)
-        toolbar.setupWithNavController(navController, appBarConfiguration)
+        setSupportActionBar(bottomAppBar)
+        bottomAppBar.setupWithNavController(navController, appBarConfiguration)
     }
 }

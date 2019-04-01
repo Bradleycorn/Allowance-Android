@@ -19,4 +19,5 @@
     <string name="label_spending_balance">Spend Money</string>
     <string name="label_savings_balance">Savings</string>
     <string name="initial_balances">Initial Balances</string>
+    <string name="add_kid">Add Kid</string>
 </resources>

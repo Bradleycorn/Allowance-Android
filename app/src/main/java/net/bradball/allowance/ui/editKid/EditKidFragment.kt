@@ -1,9 +1,7 @@
 package net.bradball.allowance.ui.editKid
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
@@ -17,6 +15,7 @@ import net.bradball.allowance.ui.AllowanceFragment
 import net.bradball.allowance.util.BottomSheetDatePicker
 import net.bradball.allowance.util.getValue
 import net.bradball.allowance.databinding.FragmentEditKidBinding
+import java.time.LocalDate
 
 class EditKidFragment : AllowanceFragment() {
 
@@ -32,6 +31,8 @@ class EditKidFragment : AllowanceFragment() {
     private val args by navArgs<EditKidFragmentArgs>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_edit_kid, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner
@@ -43,31 +44,24 @@ class EditKidFragment : AllowanceFragment() {
         birthDate = view.findViewById(R.id.edit_kid_birthdate)
         image = view.findViewById(R.id.edit_kid_image)
 
-        birthDate.setOnFocusChangeListener { _, hasFocus -> if (hasFocus) { showDatePicker() } }
-        birthDate.setOnClickListener { showDatePicker() }
-
         return view
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.loadKid(args.kidId)
-        viewModel.temp.observe(viewLifecycleOwner, Observer {
-            Toast.makeText(requireContext(), "Value: $it", Toast.LENGTH_SHORT).show()
-        })
-    }
-
-    override fun onPause() {
-        super.onPause()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        viewModel.loadKid(args.kidId)
 
+        viewModel.showBirthDatePicker.observe(viewLifecycleOwner, Observer { birthDate ->
+           showDatePicker(birthDate)
+        })
     }
 
-    private fun showDatePicker() {
-        val picker = BottomSheetDatePicker.newInstance(viewModel.parseBirthDate(birthDate.getValue())) { selectedDate ->
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_edit_kid, menu)
+    }
+
+    private fun showDatePicker(date: LocalDate) {
+        val picker = BottomSheetDatePicker.newInstance(date) { selectedDate ->
             viewModel.onBirthdateSelected(selectedDate)
         }
         picker.show(childFragmentManager, "EditKidFragment")

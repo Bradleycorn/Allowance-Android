@@ -53,7 +53,6 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
 
         viewModel.getKidList().observe(this, Observer<List<Kid>> { list ->
             listAdapter.submitList(list)
-            kid = list[0].storeId ?: String.empty
         })
 
         setHasOptionsMenu(true)
@@ -67,11 +66,10 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
     }
 
 
-    private var kid = String.empty
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.fab_add_kid -> {
-                val action = KidListFragmentDirections.actionKidListFragmentToEditKidFragment(kid, "Edit Kid")
+                val action = KidListFragmentDirections.actionKidListFragmentToEditKidFragment(null, getString(R.string.add_kid))
                 navController.navigate(action)
                 true
             }

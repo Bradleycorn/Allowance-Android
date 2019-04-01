@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View" />
         <import type="net.bradball.allowance.util.Converters" />
         <variable name="viewModel"
             type="net.bradball.allowance.ui.editKid.EditKidViewModel" />
@@ -108,8 +109,17 @@
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
                 android:inputType="date"
-                android:text="@{viewModel.kidLiveData.birthday}"/>
+                android:text="@{viewModel.kidLiveData.birthday}"
+                android:onClick="@{(v) -> viewModel.onBirthdateClicked()}"
+                android:onFocusChange="@{(view, hasFocus) -> hasFocus ? viewModel.onBirthdateClicked() : void}"/>
         </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.constraintlayout.widget.Group
+            android:id="@+id/edit_kid_balances_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="edit_kid_balance_header,edit_kid_savings_layout,edit_kid_spending_layout"
+            android:visibility='@{viewModel.kidLiveData.storeId == "" ? View.VISIBLE : View.GONE}'/>
 
         <TextView
             android:layout_width="wrap_content"

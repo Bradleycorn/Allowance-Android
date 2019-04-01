@@ -1,5 +1,6 @@
 package net.bradball.allowance.ui.editKid
 
+import android.view.View
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,28 +15,37 @@ import javax.inject.Inject
 
 class EditKidViewModel @Inject constructor(private val kidsRepo: KidsRepo): ViewModel() {
 
-    val firstName = MutableLiveData<String>()
-    val lastName = MutableLiveData<String>()
-    val birthDate = MutableLiveData<String>()
-
-
-    private var kid: Kid = Kid()
     val kidLiveData = MediatorLiveData<Kid>()
+
+    private val _showBirthDatePicker = MutableLiveData<LocalDate>()
+    val showBirthDatePicker: LiveData<LocalDate>
+        get() = _showBirthDatePicker
+
+    private var initialSpendingBalance: Double = 0.0
+    private var initialSavingsBalance: Double = 0.0
+
+    val currentBirthdate: LocalDate
+        get() = kidLiveData.value?.birthdate ?: LocalDate.now()
 
     val temp = MutableLiveData<Float>()
 
     fun loadKid(id: String?) {
-        if (kid.storeId != id) {
+        if (id.isNullOrBlank()) {
+            kidLiveData.value = Kid()
+        } else {
             val dataStore = kidsRepo.getKid(id)
-            kidLiveData.addSource(dataStore) {
-                kid = it
+            kidLiveData.addSource(dataStore) { kid ->
                 kidLiveData.value = kid
                 kidLiveData.removeSource(dataStore)
             }
-        } else {
-            kidLiveData.value = kid
         }
     }
+
+    fun onBirthdateClicked() {
+         _showBirthDatePicker.value = kidLiveData.value?.birthdate ?: LocalDate.now()
+    }
+
+    fun void() {}
 
     fun onBirthdateSelected(date: LocalDate) {
         val kid = kidLiveData.value
@@ -43,18 +53,15 @@ class EditKidViewModel @Inject constructor(private val kidsRepo: KidsRepo): View
         kidLiveData.value = kid
     }
 
-    fun updateKid(updatedKid: Kid) {
-        kid = updatedKid
-    }
-
-
     fun saveKid() {
-        kidsRepo.saveKid(kid)
+        kidLiveData.value?.let { kid ->
+            kidsRepo.saveKid(kid)
+        }
     }
 
     fun onSpendingBalanceChanged(balance: Float) {
         //TODO - This will add on more and more as you edit ... not what we want.
-        kid.credit(balance.toDouble(), Kid.Companion.ACCOUNT_TYPE.SPENDING)
+        initialSpendingBalance = balance.toDouble()
     }
 
     fun parseBirthDate(date: String): LocalDate = date.parseDate(DATE_FORMAT.LONG)
