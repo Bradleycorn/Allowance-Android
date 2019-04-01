@@ -9,6 +9,7 @@ import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
 import androidx.databinding.adapters.Converters
 import androidx.databinding.adapters.TextViewBindingAdapter.setText
+import com.google.android.material.textfield.TextInputEditText
 import net.bradball.allowance.R
 import net.bradball.allowance.util.empty
 
@@ -21,7 +22,7 @@ import kotlin.math.pow
             type = CurrencyEditText::class,
             attribute = "app:currencyWatcher",
             method = "addCurrencyWatcher")])
-class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context, attrs) {
+class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditText(context, attrs) {
 
     interface CurrencyWatcher {
         fun onCurrencyValueChanged(value: Float)

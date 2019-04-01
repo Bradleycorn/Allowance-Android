@@ -16,5 +16,7 @@
     <string name="button_done">Done</string>
     <string name="date_picker_title">Select Date</string>
     <string name="label_dob">Date of Birth</string>
-    <string name="label_spending_balance">Spending Balance</string>
+    <string name="label_spending_balance">Spend Money</string>
+    <string name="label_savings_balance">Savings</string>
+    <string name="initial_balances">Initial Balances</string>
 </resources>

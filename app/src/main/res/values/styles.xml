@@ -13,6 +13,8 @@
 
         <item name="android:textViewStyle">@style/AppTheme.TextView</item>
 
+        <item name="textAppearanceTitle">@style/AppTheme.Title</item>
+
     </style>
 
     <style name="AppTheme.TextView" parent="android:Widget.Material.Light.TextView">
@@ -30,6 +32,10 @@
     <style name="AppTheme.Button.Accent" parent="ThemeOverlay.MaterialComponents.Light">
         <item name="colorPrimary">?attr/colorAccent</item>
         <item name="colorOnPrimary">@color/onSecondaryColor</item>
+    </style>
+
+    <style name="AppTheme.Title" parent="TextAppearance.MaterialComponents.Subtitle1">
+        <item name="android:textSize">18sp</item>
     </style>
 
 </resources>
