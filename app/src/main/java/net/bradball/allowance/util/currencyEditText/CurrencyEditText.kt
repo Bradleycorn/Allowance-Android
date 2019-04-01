@@ -5,14 +5,28 @@ import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.EditText
+import androidx.databinding.BindingMethod
+import androidx.databinding.BindingMethods
+import androidx.databinding.adapters.Converters
 import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import net.bradball.allowance.R
 import net.bradball.allowance.util.empty
 
 import java.util.Currency
 import java.util.Locale
+import kotlin.math.pow
 
+@BindingMethods(value = [
+    BindingMethod(
+            type = CurrencyEditText::class,
+            attribute = "app:currencyWatcher",
+            method = "addCurrencyWatcher")])
 class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context, attrs) {
+
+    interface CurrencyWatcher {
+        fun onCurrencyValueChanged(value: Float)
+    }
+
 
     /**
      * The current locale used by this instance of CurrencyEditText. By default, will be the users
@@ -45,7 +59,7 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
      * may not be identical on all devices)
      * @param locale The fallback locale used to recover gracefully in the event of the current locale value failing.
      */
-    var defaultLocale = Locale.US
+    val defaultLocale = CurrencyTextFormatter.defaultLocale
 
 
     /**
@@ -94,7 +108,30 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
      * deviceLocale.
      */
     var rawValue = 0L
-        internal set
+        internal set(value) {
+            field = value
+            currencyWatchers.forEach {
+                it.onCurrencyValueChanged(currencyValue)
+            }
+        }
+
+    var currencyValue: Float
+        get() = rawValue.toFloat() / 10f.pow(decimalDigits)
+        set(value) = setText(format(value.toDouble()))
+
+    private val currencyWatchers = mutableListOf<CurrencyWatcher>()
+
+    fun addCurrencyWatcher(watcher: CurrencyWatcher) {
+        if (!currencyWatchers.contains(watcher)) {
+             currencyWatchers.add(watcher)
+        }
+    }
+
+    fun removeCurrencyWatcher(watcher: CurrencyWatcher) {
+        currencyWatchers.remove(watcher)
+    }
+
+
 
 
     /**
@@ -153,21 +190,11 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
         val array = context.obtainStyledAttributes(attrs, R.styleable.CurrencyEditText)
         allowNegativeValues = array.getBoolean(R.styleable.CurrencyEditText_allow_negative_values, false)
         decimalDigits = array.getInteger(R.styleable.CurrencyEditText_decimal_digits, decimalDigits)
-        currencyValue = array.getFloat(R.styleable.CurrencyEditText_currency_value, 0f).toDouble()
+        currencyValue = array.getFloat(R.styleable.CurrencyEditText_currencyValue, currencyValue)
         array.recycle()
     }
 
 
-    /**
-     * Sets the value to be formatted and displayed in the CurrencyEditText view.
-     *
-     * @param value - The value to be converted, represented in the target currencies lowest denomination (e.g. pennies).
-     */
-    fun setValue(value: Long) {
-        val formattedText = format(value)
-        setText(formattedText)
-    }
-    
     /**
      * Sets up the CurrencyEditText view to be configured for a given locale, using that
      * locales default currency (so long as the locale is ISO-3166 compliant). If there is
@@ -222,15 +249,15 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : EditText(context
     }
 
     private fun format(value: Long): String {
-        return CurrencyTextFormatter.formatText(value.toString(), locale, defaultLocale, decimalDigits)
+        return CurrencyTextFormatter.formatText(value.toString(), locale, decimalDigits)
     }
 
     private fun format(value: String): String {
-        return CurrencyTextFormatter.formatText(value, locale, defaultLocale, decimalDigits)
+        return CurrencyTextFormatter.formatText(value, locale, decimalDigits)
     }
 
     private fun format(value: Double): String {
-        return CurrencyTextFormatter.formatText(Math.floor(value * 100).toString() , locale, defaultLocale, decimalDigits)
+        return CurrencyTextFormatter.formatNumber(value, locale, decimalDigits)
     }
 
     private fun updateHint() {

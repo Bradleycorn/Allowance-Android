@@ -25,7 +25,7 @@ class Kid(
         private set
 
     var spendingBalance: Double = spendingBalance
-        private set
+        //private set
 
     var savingsBalance: Double = savingsBalance
         private set

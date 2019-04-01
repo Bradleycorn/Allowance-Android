@@ -52,6 +52,9 @@ class EditKidFragment : AllowanceFragment() {
     override fun onResume() {
         super.onResume()
         viewModel.loadKid(args.kidId)
+        viewModel.temp.observe(viewLifecycleOwner, Observer {
+            Toast.makeText(requireContext(), "Value: $it", Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onPause() {

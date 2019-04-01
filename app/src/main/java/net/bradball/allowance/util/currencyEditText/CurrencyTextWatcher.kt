@@ -39,7 +39,7 @@ internal class CurrencyTextWatcher(private val editText: CurrencyEditText) : Tex
                 editText.rawValue = java.lang.Long.valueOf(newText)
             }
             textToDisplay = try {
-                CurrencyTextFormatter.formatText(newText, editText.locale, editText.defaultLocale, editText.decimalDigits)
+                CurrencyTextFormatter.formatText(newText, editText.locale, editText.decimalDigits)
             } catch (exception: IllegalArgumentException) {
                 lastGoodInput
             }

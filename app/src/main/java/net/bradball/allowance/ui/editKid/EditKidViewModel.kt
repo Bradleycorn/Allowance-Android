@@ -22,6 +22,8 @@ class EditKidViewModel @Inject constructor(private val kidsRepo: KidsRepo): View
     private var kid: Kid = Kid()
     val kidLiveData = MediatorLiveData<Kid>()
 
+    val temp = MutableLiveData<Float>()
+
     fun loadKid(id: String?) {
         if (kid.storeId != id) {
             val dataStore = kidsRepo.getKid(id)
@@ -48,6 +50,11 @@ class EditKidViewModel @Inject constructor(private val kidsRepo: KidsRepo): View
 
     fun saveKid() {
         kidsRepo.saveKid(kid)
+    }
+
+    fun onSpendingBalanceChanged(balance: Float) {
+        //TODO - This will add on more and more as you edit ... not what we want.
+        kid.credit(balance.toDouble(), Kid.Companion.ACCOUNT_TYPE.SPENDING)
     }
 
     fun parseBirthDate(date: String): LocalDate = date.parseDate(DATE_FORMAT.LONG)

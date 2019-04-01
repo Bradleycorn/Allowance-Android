@@ -38,8 +38,8 @@ class KidListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance();
 
         nameView.text = kid.firstname
-        spendMoneyView.text = currencyFormatter.format(kid.balance)
-        totalView.text = currencyFormatter.format(kid.balance)
+        spendMoneyView.text = currencyFormatter.format(kid.spendingBalance)
+        totalView.text = currencyFormatter.format(kid.spendingBalance)
 
         itemView.setOnClickListener {
             Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.storeId!!, kid.firstname))

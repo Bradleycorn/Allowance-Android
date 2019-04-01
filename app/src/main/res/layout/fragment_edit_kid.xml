@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="net.bradball.allowance.util.Converters" />
         <variable name="viewModel"
             type="net.bradball.allowance.ui.editKid.EditKidViewModel" />
     </data>
@@ -141,7 +142,8 @@
                 android:id="@+id/edit_kid_spending_balance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.kidLiveData.spendingBalance}"
+                app:currencyValue="@{Converters.doubleToFloat(viewModel.kidLiveData.spendingBalance)}"
+                app:currencyWatcher="@{viewModel.onSpendingBalanceChanged}"
                 app:allow_negative_values="false"
                 app:decimal_digits="2" />
 
