@@ -1,9 +1,11 @@
 package net.bradball.allowance.util
 
 import android.app.Activity
+import android.content.Context
 import android.content.res.Resources
 import android.util.TypedValue
 import android.view.View
+import androidx.annotation.AttrRes
 import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavController
@@ -75,3 +77,11 @@ fun Date.toLocalDate(): LocalDate {
 
 fun TextInputEditText.getValue(): String = this.text.toString()
 
+fun Context.getColorFromAttr(
+        @AttrRes attrColor: Int,
+        typedValue: TypedValue = TypedValue(),
+        resolveRefs: Boolean = true
+): Int {
+    theme.resolveAttribute(attrColor, typedValue, resolveRefs)
+    return typedValue.data
+}

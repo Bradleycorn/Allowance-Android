@@ -10,6 +10,7 @@ import net.bradball.allowance.ui.editKid.EditKidViewModel
 
 import net.bradball.allowance.ui.KidList.KidListViewModel
 import net.bradball.allowance.ui.Ledger.LedgerViewModel
+import net.bradball.allowance.ui.transaction.TransactionViewModel
 
 @Suppress("unused")
 @Module
@@ -24,6 +25,11 @@ abstract class ViewModelBuildersModule {
     @IntoMap
     @ViewModelKey(EditKidViewModel::class)
     abstract fun bindEditKidViewModel(editKidViewModel: EditKidViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TransactionViewModel::class)
+    abstract fun bindTransactionViewModel(transactionViewModel: TransactionViewModel): ViewModel
 
     @Binds
     @IntoMap

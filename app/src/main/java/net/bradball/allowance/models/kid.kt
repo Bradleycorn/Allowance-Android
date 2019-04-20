@@ -25,16 +25,20 @@ class Kid(
         private set
 
     var spendingBalance: Double = spendingBalance
-        //private set
+        private set
 
     var savingsBalance: Double = savingsBalance
         private set
+
+    val totalBalance: Double
+        get() = spendingBalance + savingsBalance
 
     val birthday: String
         get() = birthdate.format(DATE_FORMAT.LONG)
 
     val fullName: String
         get() = "$firstname $lastname"
+
 
     fun setId(id: String) {
         if (storeId != null) {

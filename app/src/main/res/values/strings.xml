@@ -20,4 +20,7 @@
     <string name="label_savings_balance">Savings</string>
     <string name="initial_balances">Initial Balances</string>
     <string name="add_kid">Add Kid</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="transaction_kid_group_label">Add transaction for</string>
 </resources>

@@ -18,6 +18,9 @@
             app:destination="@id/editKidFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/action_kidListFragment_to_transactionFragment"
+            app:destination="@id/transactionFragment" />
     </fragment>
     <fragment
         android:id="@+id/ledgerFragment"
@@ -54,5 +57,15 @@
             android:name="title"
             android:defaultValue="Add Kid"
             app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/transactionFragment"
+        android:name="net.bradball.allowance.ui.transaction.TransactionFragment"
+        android:label="Transaction" >
+        <argument
+            android:name="kidId"
+            app:argType="string"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>

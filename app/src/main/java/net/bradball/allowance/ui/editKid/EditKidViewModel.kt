@@ -21,13 +21,9 @@ class EditKidViewModel @Inject constructor(private val kidsRepo: KidsRepo): View
     val showBirthDatePicker: LiveData<LocalDate>
         get() = _showBirthDatePicker
 
-    private var initialSpendingBalance: Double = 0.0
-    private var initialSavingsBalance: Double = 0.0
-
-    val currentBirthdate: LocalDate
-        get() = kidLiveData.value?.birthdate ?: LocalDate.now()
-
-    val temp = MutableLiveData<Float>()
+    private val _kidSaved = MediatorLiveData<Boolean>()
+    val kidSaved: LiveData<Boolean>
+        get() = _kidSaved
 
     fun loadKid(id: String?) {
         if (id.isNullOrBlank()) {
@@ -53,19 +49,21 @@ class EditKidViewModel @Inject constructor(private val kidsRepo: KidsRepo): View
         kidLiveData.value = kid
     }
 
-    fun saveKid() {
+    fun saveKid(spendingBalance: Float, savingsBalance: Float): Boolean {
         kidLiveData.value?.let { kid ->
-            kidsRepo.saveKid(kid)
+
+            if (kid.storeId.isNullOrBlank()) {
+                kid.credit(spendingBalance.toDouble(), Kid.Companion.ACCOUNT_TYPE.SPENDING)
+                kid.credit(savingsBalance.toDouble(), Kid.Companion.ACCOUNT_TYPE.SAVINGS)
+            }
+
+            val saveLiveData: LiveData<Boolean> = kidsRepo.saveKid(kid)
+            _kidSaved.addSource(saveLiveData) { kidSaved ->
+                _kidSaved.value = kidSaved
+                _kidSaved.removeSource(saveLiveData)
+            }
         }
+        return true
     }
-
-    fun onSpendingBalanceChanged(balance: Float) {
-        //TODO - This will add on more and more as you edit ... not what we want.
-        initialSpendingBalance = balance.toDouble()
-    }
-
-    fun parseBirthDate(date: String): LocalDate = date.parseDate(DATE_FORMAT.LONG)
-
-    fun formatBirthDate(input: LocalDate): String = input.format(DATE_FORMAT.LONG)
 
 }

@@ -33,13 +33,13 @@ class FirebaseDataStore @Inject constructor(): IDataStore {
         }
     }
 
-    override fun saveKid(kid: Kid) {
+    override fun saveKid(kid: Kid): LiveData<Boolean> {
         val kidDocument = KidDocument.fromKidModel(kid)
         val collection = firestore.collection(KIDS_COLLECTION)
         val document = when (kidDocument.recordId) {
             null -> collection.document().also { kid.setId(it.id) }
             else -> collection.document(kidDocument.recordId!!)
         }
-        document.set(kid)
+        return FirestoreTaskLiveData(document.set(kidDocument))
     }
 }

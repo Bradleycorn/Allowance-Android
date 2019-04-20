@@ -74,7 +74,8 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
                 true
             }
             R.id.fab_add_money -> {
-                Toast.makeText(requireContext(), "Add Money Clicked", Toast.LENGTH_SHORT).show()
+                val action = KidListFragmentDirections.actionKidListFragmentToTransactionFragment(null)
+                navController.navigate(action)
                 true
             }
             else -> super.onOptionsItemSelected(item)

@@ -8,5 +8,5 @@ interface IDataStore {
 
     fun getKid(id: String?): LiveData<Kid>
 
-    fun saveKid(kid: Kid)
+    fun saveKid(kid: Kid): LiveData<Boolean>
 }
