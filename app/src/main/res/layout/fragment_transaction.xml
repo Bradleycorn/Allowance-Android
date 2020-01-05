@@ -25,53 +25,176 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:text="$0.00"
             tools:text="$25.67" />
 
-        <TextView
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/transaction_left_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="64dp" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/transaction_right_guide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_end="64dp" />
+
+
+        <Button
             android:id="@+id/num_1"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:textAlignment="center"
-            android:textSize="30sp"
+            style="@style/AppTheme.NumberPad"
+            android:text="1"
+            app:iconPadding="0dp"
             app:layout_constraintEnd_toStartOf="@+id/num_2"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@id/transaction_left_guide"
             app:layout_constraintTop_toBottomOf="@id/amount"
-            app:layout_constraintDimensionRatio="h,1:1"
-            android:gravity="center"
             tools:text="1" />
 
-        <TextView
+        <Button
             android:id="@+id/num_2"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:textAlignment="center"
-            android:textSize="30sp"
             app:layout_constraintEnd_toStartOf="@+id/num_3"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/num_1"
             app:layout_constraintTop_toBottomOf="@id/amount"
-            app:layout_constraintDimensionRatio="h,1:1"
-            android:gravity="center"
+            tools:text="2"
+            android:text="2"
+            style="@style/AppTheme.NumberPad" />
 
-            tools:text="2" />
-
-        <TextView
+        <Button
             android:id="@+id/num_3"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:textAlignment="center"
-            android:textSize="30sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintEnd_toEndOf="@id/transaction_right_guide"
             app:layout_constraintStart_toEndOf="@+id/num_2"
             app:layout_constraintTop_toBottomOf="@id/amount"
-            app:layout_constraintDimensionRatio="h,1:1"
-            android:gravity="center"
-            tools:text="3" />
+            tools:text="3"
+            android:text="3"
+            style="@style/AppTheme.NumberPad" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="@id/num_1"
+            app:layout_constraintEnd_toEndOf="@id/num_3"
+            app:layout_constraintTop_toBottomOf="@id/num_1"
+            android:background="#000" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@id/num_1"
+            app:layout_constraintTop_toTopOf="@id/num_1"
+            app:layout_constraintBottom_toBottomOf="@id/num_00"
+            android:background="#000" />
+
+
+        <Button
+            android:id="@+id/num_4"
+            app:layout_constraintEnd_toStartOf="@+id/num_5"
+            app:layout_constraintStart_toStartOf="@id/transaction_left_guide"
+            app:layout_constraintTop_toBottomOf="@id/num_1"
+            tools:text="4"
+            android:text="4"
+            style="@style/AppTheme.NumberPad" />
+
+        <Button
+            android:id="@+id/num_5"
+            app:layout_constraintEnd_toStartOf="@+id/num_6"
+            app:layout_constraintStart_toEndOf="@+id/num_4"
+            app:layout_constraintTop_toBottomOf="@id/num_2"
+            tools:text="5"
+            android:text="5"
+            style="@style/AppTheme.NumberPad" />
+
+        <Button
+            android:id="@+id/num_6"
+            app:layout_constraintEnd_toEndOf="@id/transaction_right_guide"
+            app:layout_constraintStart_toEndOf="@+id/num_5"
+            app:layout_constraintTop_toBottomOf="@id/num_3"
+            tools:text="6"
+            android:text="6"
+            style="@style/AppTheme.NumberPad" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="@id/num_4"
+            app:layout_constraintEnd_toEndOf="@id/num_6"
+            app:layout_constraintTop_toBottomOf="@id/num_4"
+            android:background="#000" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="0dp"
+            app:layout_constraintStart_toEndOf="@id/num_2"
+            app:layout_constraintTop_toTopOf="@id/num_2"
+            app:layout_constraintBottom_toBottomOf="@id/num_0"
+            android:background="#000" />
+
+
+
+        <Button
+            android:id="@+id/num_7"
+            app:layout_constraintEnd_toStartOf="@+id/num_8"
+            app:layout_constraintStart_toStartOf="@id/transaction_left_guide"
+            app:layout_constraintTop_toBottomOf="@id/num_4"
+            tools:text="7"
+            android:text="7"
+            style="@style/AppTheme.NumberPad" />
+
+        <Button
+            android:id="@+id/num_8"
+            app:layout_constraintEnd_toStartOf="@+id/num_9"
+            app:layout_constraintStart_toEndOf="@+id/num_7"
+            app:layout_constraintTop_toBottomOf="@id/num_5"
+            tools:text="8"
+            android:text="8"
+            style="@style/AppTheme.NumberPad" />
+
+        <Button
+            android:id="@+id/num_9"
+            app:layout_constraintEnd_toEndOf="@id/transaction_right_guide"
+            app:layout_constraintStart_toEndOf="@+id/num_8"
+            app:layout_constraintTop_toBottomOf="@id/num_6"
+            tools:text="9"
+            android:text="9"
+            style="@style/AppTheme.NumberPad" />
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            app:layout_constraintStart_toStartOf="@id/num_7"
+            app:layout_constraintEnd_toEndOf="@id/num_9"
+            app:layout_constraintTop_toBottomOf="@id/num_7"
+            android:background="#000" />
+
+        <Button
+            android:id="@+id/num_00"
+            app:layout_constraintEnd_toStartOf="@+id/num_0"
+            app:layout_constraintStart_toStartOf="@id/transaction_left_guide"
+            app:layout_constraintTop_toBottomOf="@id/num_7"
+            tools:text="00"
+            android:text="00"
+            style="@style/AppTheme.NumberPad" />
+
+        <Button
+            android:id="@+id/num_0"
+            app:layout_constraintEnd_toStartOf="@+id/num_del"
+            app:layout_constraintStart_toEndOf="@+id/num_00"
+            app:layout_constraintTop_toBottomOf="@id/num_8"
+            tools:text="0"
+            android:text="0"
+            style="@style/AppTheme.NumberPad" />
+
+        <Button
+            android:id="@+id/num_del"
+            app:layout_constraintEnd_toEndOf="@id/transaction_right_guide"
+            app:layout_constraintStart_toEndOf="@+id/num_0"
+            app:layout_constraintTop_toBottomOf="@id/num_9"
+            tools:text="DEL"
+            android:text="DEL"
+            style="@style/AppTheme.NumberPad" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
