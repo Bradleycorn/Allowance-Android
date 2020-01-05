@@ -72,8 +72,7 @@
                 android:id="@+id/edit_kid_last_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@={viewModel.kidLiveData.lastname}"/>
-
+                android:text="@={viewModel.kidLiveData.lastname}" />
         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -109,9 +108,10 @@
                 android:layout_height="wrap_content"
                 android:focusableInTouchMode="false"
                 android:inputType="date"
+                android:onFocusChange="@{(view, hasFocus) -> hasFocus ? viewModel.onBirthdateClicked() : void}"
                 android:text="@{viewModel.kidLiveData.birthday}"
-                android:onClick="@{(v) -> viewModel.onBirthdateClicked()}"
-                android:onFocusChange="@{(view, hasFocus) -> hasFocus ? viewModel.onBirthdateClicked() : void}"/>
+                android:onClick="@{(v) -> viewModel.onBirthdateClicked()}" />
+
         </com.google.android.material.textfield.TextInputLayout>
 
         <androidx.constraintlayout.widget.Group
@@ -119,8 +119,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:constraint_referenced_ids="edit_kid_balance_header,edit_kid_savings_layout,edit_kid_spending_layout"
-            android:visibility='@{viewModel.kidLiveData.storeId == null ? View.VISIBLE : View.GONE}'/>
-
+            android:visibility='@{viewModel.kidLiveData.dataStoreId == null ? View.VISIBLE : View.GONE}' />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -183,7 +182,6 @@
                 app:currencyValue="@{Converters.doubleToFloat(viewModel.kidLiveData.savingsBalance)}"
                 app:allow_negative_values="false"
                 app:decimal_digits="2" />
-
         </com.google.android.material.textfield.TextInputLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

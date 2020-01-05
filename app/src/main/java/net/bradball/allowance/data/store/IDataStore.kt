@@ -1,12 +1,16 @@
 package net.bradball.allowance.data.store
 
 import androidx.lifecycle.LiveData
-import net.bradball.allowance.models.Kid
+import kotlinx.coroutines.flow.Flow
+
+import net.bradball.allowance.models.NewKid
 
 interface IDataStore {
-    fun getKids(): LiveData<List<Kid>>
+    suspend fun getKids(): List<NewKid>
+    fun observeKids(): Flow<List<NewKid>>
 
-    fun getKid(id: String?): LiveData<Kid>
+    suspend fun getKid(id: String?): NewKid
+    fun observeKid(id: String?): Flow<NewKid>
 
-    fun saveKid(kid: Kid): LiveData<Boolean>
+    suspend fun saveKid(kid: NewKid)
 }

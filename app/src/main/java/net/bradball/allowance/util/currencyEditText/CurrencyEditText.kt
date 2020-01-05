@@ -5,6 +5,7 @@ import android.text.InputType
 import android.util.AttributeSet
 import android.util.Log
 import android.widget.EditText
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.databinding.BindingMethod
 import androidx.databinding.BindingMethods
 import androidx.databinding.adapters.Converters
@@ -12,42 +13,25 @@ import androidx.databinding.adapters.TextViewBindingAdapter.setText
 import com.google.android.material.textfield.TextInputEditText
 import net.bradball.allowance.R
 import net.bradball.allowance.util.empty
+import java.math.BigDecimal
 
 import java.util.Currency
 import java.util.Locale
 import kotlin.math.pow
+
+allowNegativeValues = array.getBoolean(R.styleable.CurrencyEditText_allow_negative_values, false)
+decimalDigits = array.getInteger(R.styleable.CurrencyEditText_decimal_digits, decimalDigits)
+currencyValue = array.getFloat(R.styleable.CurrencyEditText_currency_value, currencyValue)
 
 @BindingMethods(value = [
     BindingMethod(
             type = CurrencyEditText::class,
             attribute = "app:currencyWatcher",
             method = "addCurrencyWatcher")])
-class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditText(context, attrs) {
-
-    interface CurrencyWatcher {
-        fun onCurrencyValueChanged(value: Float)
-    }
-
-
-    /**
-     * The current locale used by this instance of CurrencyEditText. By default, will be the users
-     * device locale unless that locale is not ISO 3166 compliant, in which case the defaultLocale will
-     * be used.
-     *
-     * When setting, ill also update the hint text if a custom hint was not provided.
-     *
-     * IMPORTANT - This setter does NOT update the currently set Currency object used by
-     * this CurrencyEditText instance. If your use case dictates that Currency and Locale
-     * should never break from their default pairing, use 'configureViewForLocale(locale)' instead
-     * of this method.
-     * @param locale The deviceLocale to set the CurrencyEditText box to adhere to.
-     * @return the Locale object for the given users configuration
-     */
-    var locale: Locale = retrieveLocale()
-        set(locale) {
-            field = locale
-            refreshView()
-        }
+/**
+ * A view for showing an edit text with some opinions on currency formatting.
+ */
+class CurrencyEditText(context: Context, attrs: AttributeSet) : AppCompatEditText(context, attrs) {
 
     /**
      * The currently held default Locale to fall back on in the event of a failure with the currentLocale field (typically
@@ -60,7 +44,27 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditTex
      * may not be identical on all devices)
      * @param locale The fallback locale used to recover gracefully in the event of the current locale value failing.
      */
-    val defaultLocale = CurrencyTextFormatter.defaultLocale
+    var defaultLocale = Locale.US
+
+    /**
+     * The current locale used by this instance of CurrencyEditText. By default, will be the users
+     * device locale unless that locale is not ISO 3166 compliant, in which case the defaultLocale will
+     * be used.
+     *
+     * When setting, will also update the hint text if a custom hint was not provided.
+     *
+     * IMPORTANT - This setter does NOT update the currently set Currency object used by
+     * this CurrencyEditText instance. If your use case dictates that Currency and Locale
+     * should never break from their default pairing, use 'configureViewForLocale(locale)' instead
+     * of this method.
+     * @param locale The deviceLocale to set the CurrencyEditText box to adhere to.
+     * @return the Locale object for the given users configuration
+     */
+    var locale: Locale = CurrencyUtil.retrieveLocale(context, defaultLocale)
+        set(locale) {
+            field = locale
+            refreshView()
+        }
 
 
     /**
@@ -79,7 +83,7 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditTex
      * @throws IllegalArgumentException If provided value does not fall within the range (0, 340) inclusive.
      */
     var decimalDigits = 0
-        set(digits) {
+        private set(digits) {
             if (digits < 0 || digits > 340) {
                 throw IllegalArgumentException("Decimal Digit value must be between 0 and 340")
             }
@@ -96,6 +100,11 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditTex
 
 
     /**
+     * Whether or not to show cents
+     */
+    var showCents = true
+
+    /**
      * Retrieve the raw value that was input by the user in their currencies lowest denomination (e.g. pennies).
      *
      * IMPORTANT: Remember that the location of the decimal varies by currentCurrency/Locale. This method
@@ -109,30 +118,14 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditTex
      * deviceLocale.
      */
     var rawValue = 0L
-        internal set(value) {
-            field = value
-            currencyWatchers.forEach {
-                it.onCurrencyValueChanged(currencyValue)
-            }
+        internal set
+
+    val currencyValue: BigDecimal
+        get() {
+            val unscaledValue = BigDecimal(rawValue.toString()).asCurrency()
+            val scale = BigDecimal((10.0).pow(decimalDigits)).asCurrency()
+            return (unscaledValue / scale).asCurrency()
         }
-
-    var currencyValue: Float
-        get() = rawValue.toFloat() / 10f.pow(decimalDigits)
-        set(value) = setText(format(value.toDouble()))
-
-    private val currencyWatchers = mutableListOf<CurrencyWatcher>()
-
-    fun addCurrencyWatcher(watcher: CurrencyWatcher) {
-        if (!currencyWatchers.contains(watcher)) {
-             currencyWatchers.add(watcher)
-        }
-    }
-
-    fun removeCurrencyWatcher(watcher: CurrencyWatcher) {
-        currencyWatchers.remove(watcher)
-    }
-
-
 
 
     /**
@@ -181,19 +174,30 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditTex
     init {
         inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_DECIMAL or InputType.TYPE_NUMBER_FLAG_SIGNED
 
-        val currentCurrency = getCurrencyForLocale(locale)
-        decimalDigits = currentCurrency.defaultFractionDigits
-
-        addTextChangedListener(textWatcher)
-        updateHint()
-
         // process attributes
         val array = context.obtainStyledAttributes(attrs, R.styleable.CurrencyEditText)
         allowNegativeValues = array.getBoolean(R.styleable.CurrencyEditText_allow_negative_values, false)
-        decimalDigits = array.getInteger(R.styleable.CurrencyEditText_decimal_digits, decimalDigits)
-        currencyValue = array.getFloat(R.styleable.CurrencyEditText_currencyValue, currencyValue)
+        showCents = array.getBoolean(R.styleable.CurrencyEditText_show_cents, true)
         array.recycle()
+
+        val currentCurrency = getCurrencyForLocale(locale)
+        decimalDigits =  if (showCents) currentCurrency.defaultFractionDigits else 0
+
+        addTextChangedListener(textWatcher)
+        updateHint()
     }
+
+
+    /**
+     * Sets the value to be formatted and displayed in the CurrencyEditText view.
+     *
+     * @param value - The value to be converted, represented in the target currencies lowest denomination (e.g. pennies).
+     */
+    fun setValue(value: BigDecimal) {
+        val formattedText = format(value)
+        setText(formattedText)
+    }
+
 
 
     /**
@@ -215,30 +219,6 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditTex
         refreshView()
     }
 
-    /**
-     * Pass in a value to have it formatted using the same rules used during data entry.
-     * @param val A string which represents the value you'd like formatted. It is expected that this string will be in the same format returned by the getRawValue() method (i.e. a series of digits, such as
-     * "1000" to represent "$10.00"). Note that formatCurrency will take in ANY string, and will first strip any non-digit characters before working on that string. If the result of that processing
-     * reveals an empty string, or a string whose number of digits is greater than the max number of digits, an exception will be thrown.
-     * @return A deviceLocale-formatted string of the passed in value, represented as currentCurrency.
-     */
-    fun formatCurrency(`val`: String): String {
-        return format(`val`)
-    }
-
-    /**
-     * Pass in a value to have it formatted using the same rules used during data entry.
-     * @param rawVal A long which represents the value you'd like formatted. It is expected that this value will be in the same format returned by the getRawValue() method (i.e. a series of digits, such as
-     * "1000" to represent "$10.00").
-     * @return A deviceLocale-formatted string of the passed in value, represented as currentCurrency.
-     */
-    fun formatCurrency(rawVal: Long): String {
-        return format(rawVal)
-    }
-
-    fun formatCurrency(value: Double): String {
-        return format(value)
-    }
 
     /*
     PRIVATE HELPER METHODS
@@ -250,33 +230,21 @@ class CurrencyEditText(context: Context, attrs: AttributeSet) : TextInputEditTex
     }
 
     private fun format(value: Long): String {
-        return CurrencyTextFormatter.formatText(value.toString(), locale, decimalDigits)
+        return format(value.toString())
+    }
+
+    private fun format(value: BigDecimal): String {
+        return format(value.asCurrency().toString())
     }
 
     private fun format(value: String): String {
-        return CurrencyTextFormatter.formatText(value, locale, decimalDigits)
-    }
-
-    private fun format(value: Double): String {
-        return CurrencyTextFormatter.formatNumber(value, locale, decimalDigits)
+        return CurrencyTextFormatter.formatText(value, locale, defaultLocale, decimalDigits)
     }
 
     private fun updateHint() {
         if (hintCache == String.empty) {
             hint = defaultHintValue
         }
-    }
-
-    private fun retrieveLocale(): Locale {
-        var locale: Locale
-        try {
-            locale = resources.configuration.locale
-        } catch (e: Exception) {
-            Log.w("CurrencyEditText", String.format("An error occurred while retrieving users device locale, using fallback locale '%s'", defaultLocale), e)
-            locale = defaultLocale
-        }
-
-        return locale
     }
 
     private fun getCurrencyForLocale(someLocale: Locale?): Currency {

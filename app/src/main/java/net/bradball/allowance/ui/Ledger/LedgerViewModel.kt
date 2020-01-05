@@ -3,9 +3,10 @@ package net.bradball.allowance.ui.Ledger
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
 import net.bradball.allowance.data.repos.KidsRepo
-import net.bradball.allowance.models.Kid
 import net.bradball.allowance.models.LedgerEntry
+import net.bradball.allowance.models.NewKid
 import java.util.*
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class LedgerViewModel @Inject constructor(private val kidsRepo: KidsRepo): ViewM
     }
 
 
-    fun getKid(kidId: String): LiveData<Kid> {
-      return kidsRepo.getKid(kidId)
+    fun getKid(kidId: String): LiveData<NewKid> {
+      return kidsRepo.getKid(kidId).asLiveData()
     }
 }

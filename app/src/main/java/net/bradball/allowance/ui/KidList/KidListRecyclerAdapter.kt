@@ -10,11 +10,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_kid_list_card.view.*
 import net.bradball.allowance.R
-import net.bradball.allowance.models.Kid
+import net.bradball.allowance.models.NewKid
 import net.bradball.allowance.ui.Ledger.LedgerFragment
 import java.text.NumberFormat
 
-class KidListAdapter: ListAdapter<Kid, KidListViewHolder>(KidListDiffUtil) {
+class KidListAdapter: ListAdapter<NewKid, KidListViewHolder>(KidListDiffUtil) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): KidListViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.fragment_kid_list_card, parent, false)
@@ -33,7 +33,7 @@ class KidListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val spendMoneyView: TextView = itemView.kid_card_spend_money
     private val totalView: TextView = itemView.kid_card_total
 
-    fun bindKid(kid: Kid) {
+    fun bindKid(kid: NewKid) {
 
         val currencyFormatter: NumberFormat = NumberFormat.getCurrencyInstance();
 
@@ -42,19 +42,19 @@ class KidListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         totalView.text = currencyFormatter.format(kid.totalBalance)
 
         itemView.setOnClickListener {
-            Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.storeId!!, kid.firstname))
+            Navigation.findNavController(itemView).navigate(R.id.action_showLedger, LedgerFragment.getArgsBundle(kid.dataStoreId!!, kid.firstname))
             // Navigation.createNavigateOnClickListener(R.id.ledgerFragment, LedgerFragment.getArgsBundle(kid.id))
         }
 
     }
 }
 
-private val KidListDiffUtil = object: DiffUtil.ItemCallback<Kid>() {
-    override fun areItemsTheSame(oldItem: Kid, newItem: Kid): Boolean {
-        return oldItem.storeId == newItem.storeId
+private val KidListDiffUtil = object: DiffUtil.ItemCallback<NewKid>() {
+    override fun areItemsTheSame(oldItem: NewKid, newItem: NewKid): Boolean {
+        return oldItem.dataStoreId == newItem.dataStoreId
     }
 
-    override fun areContentsTheSame(oldItem: Kid, newItem: Kid): Boolean {
+    override fun areContentsTheSame(oldItem: NewKid, newItem: NewKid): Boolean {
         return oldItem == newItem
     }
 }

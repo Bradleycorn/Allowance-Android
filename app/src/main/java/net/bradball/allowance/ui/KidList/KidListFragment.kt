@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 import net.bradball.allowance.R
 import net.bradball.allowance.di.ViewModelFactory
-import net.bradball.allowance.models.Kid
+import net.bradball.allowance.models.NewKid
 import net.bradball.allowance.ui.AllowanceFragment
 import net.bradball.allowance.util.empty
 import net.bradball.allowance.util.fabMenu.IHasFabMenu
@@ -51,7 +51,7 @@ class KidListFragment : AllowanceFragment(), IHasFabMenu {
         kidListView.layoutManager = LinearLayoutManager(requireContext(), RecyclerView.VERTICAL, false)
         kidListView.adapter = listAdapter
 
-        viewModel.getKidList().observe(this, Observer<List<Kid>> { list ->
+        viewModel.getKidList().observe(viewLifecycleOwner, Observer<List<NewKid>> { list ->
             listAdapter.submitList(list)
         })
 

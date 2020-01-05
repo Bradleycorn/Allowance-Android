@@ -33,7 +33,7 @@ class EditKidFragment : AllowanceFragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
-
+0
         binding =  DataBindingUtil.inflate(inflater, R.layout.fragment_edit_kid, container, false)
         binding.viewModel = viewModel
         binding.lifecycleOwner = viewLifecycleOwner

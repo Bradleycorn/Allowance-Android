@@ -3,9 +3,15 @@ package net.bradball.allowance.data.store.firebase
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.mapNotNull
+import kotlinx.coroutines.tasks.await
 import net.bradball.allowance.data.store.IDataStore
-import net.bradball.allowance.data.store.firebase.documents.KidDocument
-import net.bradball.allowance.models.Kid
+
+import net.bradball.allowance.models.NewKid
 import net.bradball.allowance.util.map
 import javax.inject.Inject
 
@@ -16,30 +22,28 @@ class FirebaseDataStore @Inject constructor(): IDataStore {
     }
 
     private val firestore: FirebaseFirestore by lazy {
-        FirebaseFirestore.getInstance()
+        Firebase.firestore
     }
 
-    override
-    fun getKids(): LiveData<List<Kid>> {
-        return FirestoreQueryLiveData(firestore.collection(KIDS_COLLECTION).orderBy(KIDS_FIELD_FIRSTNAME)).map { snapshot ->
-            snapshot.toDataStoreRecords(KidDocument::class.java).map { kidDocument -> kidDocument.toKidModel() }
-        }
+    override suspend fun getKid(id: String?): NewKid {
+        val kidDoc = firestore.collection(KIDS_COLLECTION).document(id).get().await()
+        return kidDoc.toObject(NewKid::class.java) ?: NewKid()
     }
 
-    override
-    fun getKid(id: String?): LiveData<Kid> {
-        return FirestoreDocumentLiveData(firestore.collection(KIDS_COLLECTION).document(id)).map { snapshot ->
-            snapshot.toDataStoreRecord(KidDocument::class.java).toKidModel()
-        }
+    override fun observeKid(id: String?): Flow<NewKid> {
+        return firestore.collection(KIDS_COLLECTION).document(id).asFlow(NewKid::class.java)
     }
 
-    override fun saveKid(kid: Kid): LiveData<Boolean> {
-        val kidDocument = KidDocument.fromKidModel(kid)
-        val collection = firestore.collection(KIDS_COLLECTION)
-        val document = when (kidDocument.recordId) {
-            null -> collection.document().also { kid.setId(it.id) }
-            else -> collection.document(kidDocument.recordId!!)
-        }
-        return FirestoreTaskLiveData(document.set(kidDocument))
+    override suspend fun getKids(): List<NewKid> {
+        val query = firestore.collection(KIDS_COLLECTION).orderBy(KIDS_FIELD_FIRSTNAME).get().await()
+        return query.toObjects(NewKid::class.java)
+    }
+
+    override fun observeKids(): Flow<List<NewKid>> {
+        return firestore.collection(KIDS_COLLECTION).orderBy(KIDS_FIELD_FIRSTNAME).asFlow(NewKid::class.java)
+    }
+
+    override suspend fun saveKid(kid: NewKid) {
+        firestore.collection(KIDS_COLLECTION).document(kid.dataStoreId).set(kid).await()
     }
 }
